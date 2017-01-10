@@ -23,17 +23,24 @@ module.exports = function(grunt) {
         }
       }
     },
-    cssmin: {
-      target: {
+    sass: {
+      dist: {
         files: {
-          'public/assets/build/main.min.css': ['public/assets/css/main.css']
+          'public/assets/build/main.css': 'public/assets/css/main.scss'
+        }
+      }
+    },
+    cssmin: {
+      dist: {
+        files: {
+          'public/assets/build/main.min.css': ['public/assets/build/main.css']
         }
       }
     },
     watch: {
       scripts: {
         files: ['public/assets/js/*.js', ],
-        tasks: ['concat', 'uglify', 'cssmin'],
+        tasks: ['concat', 'uglify','sass', 'cssmin'],
         options: {
           spawn: false,
         },
@@ -44,9 +51,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
 
   // Default task(s).
-  grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
+  grunt.registerTask('default', ['concat', 'uglify', 'sass', 'cssmin']);
 
 };
