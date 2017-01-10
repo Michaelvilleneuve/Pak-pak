@@ -39,7 +39,7 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts: {
-        files: ['public/assets/js/*.js', ],
+        files: ['public/assets/js/*.js', 'public/assets/css/*.scss'],
         tasks: ['concat', 'uglify','sass', 'cssmin'],
         options: {
           spawn: false,
