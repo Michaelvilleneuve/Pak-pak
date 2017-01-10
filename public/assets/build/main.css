@@ -64,4 +64,7 @@ section.scores {
       padding: 10px;
       font-weight: 800; }
 
+div#main-container {
+  display: none; }
+
 /*# sourceMappingURL=main.css.map */

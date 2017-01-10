@@ -11,6 +11,10 @@ $('#gametype').children('button').each(
   }
 );
 
+$('#go').click(function() {
+  $('#menu-container').fadeOut(300);
+  $('#main-container').fadeIn(300);
+})
 
 
 function play(gametype) {
