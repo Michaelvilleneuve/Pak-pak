@@ -1,4 +1,79 @@
 html {
-  background: green;
-  padding: 40px;
+	height: 100%;
+	width: 100%;
+}
+body {
+	height: 100%;
+	font-family: "Arial";
+}
+section {
+	float: left;
+	padding-top: 20px;
+	height: 100%;
+}
+section.points {
+	width: 20%;
+
+	.point-single {
+		border: 2px solid #333;
+		width: 100%;
+		margin: auto;
+		max-width: 200px;
+		height: 250px;
+		overflow: hidden;
+		border-radius: 2px;
+		margin-bottom: 20px;
+		
+		header {
+			border-bottom: 2px solid #333;
+			padding: 10px;
+			font-weight: 800;
+		}
+		.body {
+			text-align:center;
+		}
+		img {
+			width: 70%;
+		}
+	}
+}
+section.game {
+	width: 60%;
+	#game {
+		border: 2px solid #333;
+		border-top: 0px;
+		width: 100%;
+		height: calc(100% - 100px);
+		box-sizing: border-box;
+	}
+	header {
+		border: 2px solid #333;
+		height: 40px;
+		.player {
+			float: left;
+			width: 50%;
+			text-align:center;
+			padding-top: 10px;
+		}
+	}
+}
+section.scores {
+	width: 20%;
+
+	.score-array {
+		border: 2px solid #333;
+		width: 100%;
+		margin: auto;
+		max-width: 200px;
+		height: 250px;
+		overflow: hidden;
+		border-radius: 2px;
+		margin-bottom: 20px;
+		
+		header {
+			border-bottom: 2px solid #333;
+			padding: 10px;
+			font-weight: 800;
+		}
+	}
 }
