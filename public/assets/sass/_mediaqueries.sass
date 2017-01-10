@@ -1,0 +1,39 @@
+@mixin media-lowDesktop-and-more
+  @media only screen and (min-height : $low-desktop-size + 1px )
+    @content
+
+@mixin media-lowDesktop-and-less
+  @media only screen and (max-height : $low-desktop-size )
+    @content
+
+@mixin media-smallDesktop-and-more
+  @media only screen and (min-width : $desktop-size + 1px )
+    @content
+
+@mixin media-smallDesktop-and-less
+  @media only screen and (max-width : $desktop-size )
+    @content
+
+@mixin media-tablet-and-more
+  @media only screen and (min-width : $tablet-size + 1px )
+    @content
+
+@mixin media-tablet-and-less
+  @media only screen and (max-width : $tablet-size )
+    @content
+
+@mixin media-smartphone-and-more
+  @media only screen and (min-width : $smartphone-size + 1px )
+    @content
+
+@mixin media-smartphone-and-less
+  @media only screen and (max-width : $smartphone-size )
+    @content
+
+@mixin media-tablet
+  @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) 
+    @content
+
+@mixin retina
+  @media all and (-webkit-min-device-pixel-ratio: 2)
+    @content
