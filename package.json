@@ -27,6 +27,8 @@
     "grunt-contrib-uglify": "~0.5.0"
   },
   "devDependencies": {
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-uglify": "^0.5.1",
     "grunt-contrib-watch": "^1.0.0"
   }
 }
