@@ -50,8 +50,8 @@ function chooseGameLevel(gamelevelPick) {
 }
 
 function affectName() {
-  p1 = new Player($('#pickname #namej1').val());
-  p2 = new Player($('#pickname #namej2').val());
+  p1 = new Player($('#pickname #namej1').val(), 1);
+  p2 = new Player($('#pickname #namej2').val(), 2);
   $('#player1').html(p1.name);
   $('#player2').html(p2.name);
   startFirstRound();

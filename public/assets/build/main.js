@@ -9,15 +9,38 @@ var GameController = (function(){"use strict";function GameController() {}DP$0(G
       // @TODO Add css on player for identify
     }
   };
+
+  proto$0.updateScore = function(player, points) {
+    player.addPoints(points);
+    var scoreId = '#score' + player.id;
+    $(scoreId).html(player.score);
+  };
 MIXIN$0(GameController.prototype,proto$0);proto$0=void 0;return GameController;})();
 
 var gameController = new GameController();
 
-// Actions
+// Actions for testing
 $('#next').click(function()  {
     gameController.nextRound();
+    gameController.updateScore(p1, 10);
 })
-;// Actions //
+;var Player = (function(){"use strict";var proto$0={};
+  function Player(name, id) {
+    this.id = id;
+    this.name = name;
+    this.round = 0;
+    this.score = 0;
+  }DP$0(Player,"prototype",{"configurable":false,"enumerable":false,"writable":false});
+
+  proto$0.addRound = function() {
+    this.round = this.round + 1;
+  };
+
+  proto$0.addPoints = function(points) {
+    this.score += points;
+  };
+MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
+;;// Actions //
 
 $('#play').click(function()  {
   removeSection('#menu');
@@ -69,8 +92,8 @@ function chooseGameLevel(gamelevelPick) {
 }
 
 function affectName() {
-  p1 = new Player($('#pickname #namej1').val());
-  p2 = new Player($('#pickname #namej2').val());
+  p1 = new Player($('#pickname #namej1').val(), 1);
+  p2 = new Player($('#pickname #namej2').val(), 2);
   $('#player1').html(p1.name);
   $('#player2').html(p2.name);
   startFirstRound();
@@ -88,14 +111,3 @@ function removeSection(sectionId) {
 function showSection(sectionId) {
   $(sectionId).fadeIn(300);
 }
-;var Player = (function(){"use strict";var proto$0={};
-  function Player(name) {
-    this.name = name;
-    this.round = 0;
-  }DP$0(Player,"prototype",{"configurable":false,"enumerable":false,"writable":false});
-
-  proto$0.addRound = function() {
-    this.round = this.round + 1;
-  };
-MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
-;
