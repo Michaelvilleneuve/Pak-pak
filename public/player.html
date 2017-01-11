@@ -1,0 +1,42 @@
+<!doctype html>
+<html class="no-js" lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>Block Boxer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="assets/build/main.min.css" media="all">
+	<script type="text/javascript" src="assets/js/vendor/audioeffects.js"></script>
+	<script type="text/javascript" src="assets/js/vendor/vendor.min.js"></script>
+</head>
+<body>
+	<div class="mutebuttons">
+		<button value="theme">Mute Theme</button>
+		<button value="effects">Mute Effects</button>
+	<div>
+
+	<div class="soundEffects">
+		<button value="beat">Beat</button>
+		<button value="jump">Jump</button>
+		<button value="lose">Lose</button>
+		<button value="win">Menu</button>
+	</div>
+
+	<script>
+	$(document).ready(function() {
+
+		audios  = new AudioEffect();
+
+		$(".mutebuttons > button").click(function(){
+			audios.toggleMute($(this).val());
+
+		});
+
+		$(".soundEffects > button").click(function(){
+			audios.play($(this).val());
+
+		});
+	});
+		
+	</script>
+</body>
+</html>
