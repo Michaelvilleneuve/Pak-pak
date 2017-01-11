@@ -21,6 +21,7 @@ class GameController {
       // @TODO Stop the Game
 
       // Add player score to highScore in cookies
+      addHighScore(player);
     }
   }
 
