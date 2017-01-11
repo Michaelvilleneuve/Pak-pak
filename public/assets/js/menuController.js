@@ -1,26 +1,26 @@
 // Actions //
 
-$('#play').click(function() {
-removeSection('#menu');
-showSection('#gametype');
+$('#play').click(() => {
+  removeSection('#menu');
+  showSection('#gametype');
 })
 
 $('#gametype').children('button').each(
-  function() {
-    $(this).click(function() {
+  function(){
+    $(this).click(() => {
       chooseGameType(this.id);
     });
   }
 );
 
-$('#start').click(function() {
+$('#start').click(() => {
   affectName();
   removeSection('#menu-container');
   showSection('#main-container');
 })
 
 $('gamelevel').children('button').each(
-  function() {
+  function(){
     $(this).click(function() {
       chooseGameLevel(this.id);
     })
@@ -42,8 +42,8 @@ function chooseGameType(gametype) {
   }
 }
 
-function chooseGameLevel(gamelevel) {
-  var gamelevel = gamelevel;
+function chooseGameLevel(gamelevelPick) {
+  var gamelevel = gamelevelPick;
 }
 
 function affectName() {
