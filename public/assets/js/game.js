@@ -1,5 +1,6 @@
 var Game = {
 	ennemies: [],
+	textures: [],
 	init: function() {
 		this.renderer = PIXI.autoDetectRenderer(512, 512);
 		
@@ -18,6 +19,12 @@ var Game = {
 	},
 
 	setup: function() {
+		this.setupTextures();
+		this.setupEnemies();
+
+	},
+
+	setupEnemies: function() {
 		this.ennemiesAssets = [
 			"assets/img/ennemy1.png",
 			"assets/img/ennemy2.png",
@@ -33,6 +40,40 @@ var Game = {
 		}
 	},
 
+	setupTextures: function() {
+		this.texturesAssets = [
+			"assets/img/plateau.png",
+		];
+
+		for(var i = 0; i < this.texturesAssets.length; i++) {
+			PIXI.loader
+			  .add(this.texturesAssets[i])
+		  	  .load(Textures.setup.bind(this, i));
+			
+		}
+	}
+}
+
+Textures = {
+	setup: function(i) {
+		this.textures.push(
+			new PIXI.Sprite(
+				PIXI.loader.resources[
+					this.texturesAssets[i]
+				].texture
+			)
+		);
+
+		let texture = this.textures[this.textures.length - 1];
+		texture.x = 100;
+		texture.y = 140;
+		texture.width = 320;
+		texture.height = 280;
+
+		console.log(texture);
+		this.stage.addChild(texture);
+		this.renderer.render(this.stage);
+	}
 }
 
 
@@ -46,9 +87,17 @@ Enemy = {
 			)
 		);
 
-		this.stage.addChild(this.ennemies[this.ennemies.length - 1]);
+		let lastEnemy = this.ennemies[this.ennemies.length - 1];
+
+		lastEnemy.x = Math.floor(Math.random() * 200) + 140;
+		lastEnemy.y = Math.floor(Math.random() * 200) + 150;
+
+		lastEnemy.width = 30;
+		lastEnemy.height = 30;
+
+		this.stage.addChild(lastEnemy);
 		this.renderer.render(this.stage);
-	}
+	},
 }
 
 

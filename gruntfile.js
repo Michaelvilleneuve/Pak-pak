@@ -14,6 +14,15 @@ module.exports = function(grunt) {
         dest: 'public/assets/build/main.js'
       }
     },
+    es6transpiler: {
+      dist: {
+        src: 'public/assets/build/main.js'
+        , dest: 'public/assets/build/main.js'
+      },
+      options: {
+        "disallowUnknownReferences": false // for allowjQuery
+      }
+    },
     uglify: {
       dist: {
         files: {
@@ -38,7 +47,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['public/assets/js/*.js', 'public/assets/css/*.scss'],
-        tasks: ['concat', 'uglify','sass', 'cssmin'],
+        tasks: ['concat', 'es6transpiler', 'uglify','sass', 'cssmin'],
         options: {
           spawn: false,
         },
@@ -51,8 +60,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-es6-transpiler');
 
   // Default task(s).
-  grunt.registerTask('default', ['concat', 'uglify', 'sass', 'cssmin']);
+  grunt.registerTask('default', ['concat', 'es6transpiler', 'uglify', 'sass', 'cssmin']);
 
 };

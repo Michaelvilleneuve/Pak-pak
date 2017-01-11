@@ -6,47 +6,76 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="assets/build/main.min.css" media="all">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.2.2/pixi.min.js"></script>
+	<script type="text/javascript" src="assets/js/vendor/vendor.min.js"></script>
 </head>
 <body>
-	<section class="points">
-		<div class="point-single">
+	<div id="main-container" style="display: block;">
+		<section class="points">
+			<div class="point-single">
+				<header>
+					10 points
+				</header>
+				<div class="body">
+					<img src="assets/img/ennemy2.png" />
+				</div>
+	 		</div>
+	 		<div class="point-single">
+				<header>
+					10 points
+				</header>
+				<div class="body">
+					<img src="assets/img/ennemy3.png" />
+				</div>
+	 		</div>
+		</section>
+		<section class="game">
 			<header>
-				10 points
+				<div class="player">
+					<span id="player1">Joueur 1</span> : 0 points
+				</div>
+				<div class="player">
+					<span id="player2">Joueur 2</span> : 0 points
+				</div>
 			</header>
-			<div class="body">
-				<img src="assets/img/ennemy2.png" />
+		</section>
+		<section class="scores">
+			<div class="score-array">
+				<header>
+					High Score
+				</header>
+				<ol>
+					<li>xX_SWAGGG_Xx <span class="right">44</span></li>
+					<li>xX_SWAGGG_Xx <span class="right">44</span></li>
+				</ol>
 			</div>
- 		</div>
- 		<div class="point-single">
-			<header>
-				10 points
-			</header>
-			<div class="body">
-				<img src="assets/img/ennemy3.png" />
-			</div>
- 		</div>
-	</section>
-	<section class="game">
-		<header>
-			<div class="player">
-				Joueur 1 : 250 points
-			</div>
-			<div class="player">
-				Joueur 2 : 250 points
-			</div>
-		</header>
-	</section>
-	<section class="scores">
-		<div class="score-array">
-			<header>
-				High Score
-			</header>
-			<ol>
-				<li>xX_SWAGGG_Xx <span class="right">44</span></li>
-				<li>xX_SWAGGG_Xx <span class="right">44</span></li>
-			</ol>
-		</div>
-	</section>
+		</section>
+	</div>
+
+	<div id="menu-container" style="display: none;">
+		<section id="menu">
+				<button id="play">Jouer</button>
+		</section>
+
+		<section id="gametype">
+				<button id="solo">Solo</button>
+				<button id="duo">Duo</button>
+		</section>
+
+		<section id="gamelevel">
+				<button id="easy">Facile</button>
+				<button id="medium">Moyen</button>
+				<button id="hard">Expert</button>
+		</section>
+
+		<section id="pickname">
+				<label for="namej1">Joueur 1</label>
+				<input type="text" id="namej1" />
+				<label for="namej2">Joueur 2</label>
+				<input type="text" id="namej2" />
+				<button id="start">Jouer</button>
+		</section>
+	</div>
+
 	<script type="text/javascript" src="assets/build/main.min.js"></script>
 </body>
 </html>
