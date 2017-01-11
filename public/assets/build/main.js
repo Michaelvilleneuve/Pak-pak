@@ -1,4 +1,31 @@
-var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};// Class
+var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};function setCookie(name, value, days) {
+    var expires;
+
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toGMTString();
+    } else {
+        expires = "";
+    }
+    document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + expires + "; path=/";
+}
+
+function getCookie(name) {
+    var nameEQ = encodeURIComponent(name) + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+    }
+    return null;
+}
+
+function eraseCookie(name) {
+    setCookie(name, "", -1);
+}
+;// Class
 var GameController = (function(){"use strict";function GameController() {}DP$0(GameController,"prototype",{"configurable":false,"enumerable":false,"writable":false});var proto$0={};
   proto$0.nextRound = function() {
     if (p2.round < p1.round) {
@@ -15,7 +42,37 @@ var GameController = (function(){"use strict";function GameController() {}DP$0(G
     var scoreId = '#score' + player.id;
     $(scoreId).html(player.score);
   };
+
+  proto$0.checkVictory = function(player) {
+    if (player.score >= 500) {
+      // @TODO Stop the Game
+
+      // Add player score to highScore in cookies
+    }
+  };
+
+  proto$0.addHighScore = function(player) {
+    var cookiesObject = {}, highscore;
+    var playerName = player.name;
+    var playerRound = player.round;
+
+    if (highscoreCookies !== null) {
+      cookiesObject = JSON.parse(highscoreCookies);
+      if (cookiesObject.hasOwnProperty(playerName)) {
+        cookiesObject[playerName].push(playerRound);
+      } else {
+        cookiesObject[playerName] = [playerRound];
+      }
+      highscore = JSON.stringify(cookiesObject);
+      setCookie('highscore', highscore);
+    } else {
+      cookiesObject[playerName] = [playerRound];
+      highscore = JSON.stringify(cookiesObject);
+      setCookie('highscore', highscore);
+    }
+  };
 MIXIN$0(GameController.prototype,proto$0);proto$0=void 0;return GameController;})();
+
 
 var gameController = new GameController();
 
@@ -23,6 +80,10 @@ var gameController = new GameController();
 $('#next').click(function()  {
     gameController.nextRound();
     gameController.updateScore(p1, 10);
+})
+
+$('#addScore').click(function()  {
+    gameController.addHighScore(p2);
 })
 ;var Player = (function(){"use strict";var proto$0={};
   function Player(name, id) {
@@ -40,6 +101,7 @@ $('#next').click(function()  {
     this.score += points;
   };
 MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
+<<<<<<< HEAD
 ;function show(element) {
   $(element).show();
 }
@@ -56,6 +118,9 @@ function displayPoints() {
     show(element);
   }
 }
+=======
+<<<<<<< HEAD
+>>>>>>> add highscore to cookies
 ;var Game = {
     enemies: [],
     columns_nb: 49,
@@ -186,6 +251,13 @@ MIXIN$0(Enemy.prototype,proto$0);proto$0=void 0;return Enemy;})();
 
 
 Game.init();;;// Actions //
+=======
+;var highscoreCookies = getCookie('highscore');
+
+//console.log(JSON.parse(cookies));
+console.log(highscoreCookies);
+;// Actions //
+>>>>>>> add highscore to cookies
 
 $('#play').click(function()  {
   removeSection('#menu');

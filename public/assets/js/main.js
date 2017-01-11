@@ -1,0 +1,1 @@
+var highscoreCookies = getCookie('highscore');
