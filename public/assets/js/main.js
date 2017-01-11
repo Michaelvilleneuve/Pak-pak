@@ -19,7 +19,7 @@ function displayHighScore() {
       });
     }
     // Add High Score here
-    addHighScore(nameBest, score);
+    addHighScore(nameBest, bestScore);
     // Remove index from array
     highscoreObject[nameBest].splice(indexBest, 1);
     // Check if Array is empty for delete it form object

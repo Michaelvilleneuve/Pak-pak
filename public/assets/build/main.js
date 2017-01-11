@@ -48,6 +48,7 @@ var GameController = (function(){"use strict";function GameController() {}DP$0(G
       // @TODO Stop the Game
 
       // Add player score to highScore in cookies
+      addHighScore(player);
     }
   };
 
@@ -101,7 +102,6 @@ $('#addScore').click(function()  {
     this.score += points;
   };
 MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
-<<<<<<< HEAD
 ;function show(element) {
   $(element).show();
 }
@@ -118,9 +118,6 @@ function displayPoints() {
     show(element);
   }
 }
-=======
-<<<<<<< HEAD
->>>>>>> add highscore to cookies
 ;var Game = {
     enemies: [],
     columns_nb: 49,
@@ -250,9 +247,7 @@ var Enemy = (function(){"use strict";var proto$0={};
 MIXIN$0(Enemy.prototype,proto$0);proto$0=void 0;return Enemy;})();
 
 
-Game.init();;;// Actions //
-=======
-;var highscoreCookies = getCookie('highscore');
+Game.init();;var highscoreCookies = getCookie('highscore');
 
 displayHighScore();
 
@@ -273,7 +268,7 @@ function displayHighScore() {
       });
     }
     // Add High Score here
-    addHighScore(nameBest, score);
+    addHighScore(nameBest, bestScore);
     // Remove index from array
     highscoreObject[nameBest].splice(indexBest, 1);
     // Check if Array is empty for delete it form object
@@ -288,7 +283,6 @@ function addHighScore(name, score) {
 
 }
 ;// Actions //
->>>>>>> add highscore to cookies
 
 $('#play').click(function()  {
   removeSection('#menu');
