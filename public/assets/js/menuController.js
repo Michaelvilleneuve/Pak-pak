@@ -27,6 +27,9 @@ $('gamelevel').children('button').each(
   }
 )
 
+// initialise global value
+var p1, p2;
+
 // Function //
 
 function chooseGameType(gametype) {
@@ -47,10 +50,16 @@ function chooseGameLevel(gamelevelPick) {
 }
 
 function affectName() {
-  var player1 = $('#pickname #namej1').val();
-  var player2 = $('#pickname #namej2').val();
-  $('#player1').html(player1);
-  $('#player2').html(player2);
+  p1 = new Player($('#pickname #namej1').val());
+  p2 = new Player($('#pickname #namej2').val());
+  $('#player1').html(p1.name);
+  $('#player2').html(p2.name);
+  startFirstRound();
+}
+
+function startFirstRound() {
+  p1.addRound();
+  $('#round').html(p1.round);
 }
 
 function removeSection(sectionId) {
