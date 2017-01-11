@@ -1,4 +1,4 @@
-;// Actions //
+// Actions //
 
 $('#play').click(function() {
 removeSection('#menu');
