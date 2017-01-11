@@ -90,7 +90,8 @@ section.scores {
     section.scores .score-array header {
       border-bottom: 2px solid #673AB7;
       padding: 10px;
-      font-weight: 800; }
+      font-weight: 800;
+      max-height: 5rem; }
 
 div#main-container {
   display: none; }
