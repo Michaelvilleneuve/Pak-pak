@@ -81,3 +81,9 @@ section.scores {
 div#main-container {
   display: none;
 }
+
+div#menu-container {
+	#gametype, #gamelevel, #pickname {
+		display: none;
+	}
+}

@@ -67,4 +67,7 @@ section.scores {
 div#main-container {
   display: none; }
 
+div#menu-container #gametype, div#menu-container #gamelevel, div#menu-container #pickname {
+  display: none; }
+
 /*# sourceMappingURL=main.css.map */
