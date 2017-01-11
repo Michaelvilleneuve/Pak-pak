@@ -19,6 +19,14 @@ $('#start').click(function() {
   showSection('#main-container');
 })
 
+$('gamelevel').children('button').each(
+  function() {
+    $(this).click(function() {
+      chooseGameLevel(this.id);
+    })
+  }
+)
+
 // Function //
 
 function chooseGameType(gametype) {
@@ -32,6 +40,10 @@ function chooseGameType(gametype) {
       showSection('#pickname');
       break;
   }
+}
+
+function chooseGameLevel(gamelevel) {
+  var gamelevel = gamelevel;
 }
 
 function affectName() {
