@@ -253,14 +253,14 @@ displayHighScore();
 
 function displayHighScore() {
   var highscoreObject = JSON.parse(highscoreCookies);
-  var bestScore = -1;
+  var bestScore = 9999;
   var nameBest;
   var indexBest;
 
   do {
     for (var key in highscoreObject) {
       highscoreObject[key].forEach(function(element, index) {
-        if (element > bestScore) {
+        if (element < bestScore) {
           bestScore = element;
           nameBest = key;
           indexBest = index;
@@ -275,12 +275,14 @@ function displayHighScore() {
     if (highscoreObject[nameBest].length === 0) {
       delete highscoreObject[nameBest];
     }
-    bestScore = -1;
+    bestScore = 9999;
   } while (!$.isEmptyObject(highscoreObject));
 }
 
 function addHighScore(name, score) {
-
+  var list = $('#score-list');
+  var item = $("<li>"+name+" <span class='right'>" + score + "</span>"+"</li>");
+  list.append(item);
 }
 ;// Actions //
 

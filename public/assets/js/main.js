@@ -31,5 +31,7 @@ function displayHighScore() {
 }
 
 function addHighScore(name, score) {
-
+  var list = $('#score-list');
+  var item = $("<li>"+name+" <span class='right'>" + score + "</span>"+"</li>");
+  list.append(item);
 }
