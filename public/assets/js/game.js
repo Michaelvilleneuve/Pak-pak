@@ -1,4 +1,5 @@
 var Game = {
+	ennemies: [],
 	init: function() {
 		this.renderer = PIXI.autoDetectRenderer(512, 512);
 		
@@ -8,7 +9,7 @@ var Game = {
 		this.renderer.render(this.stage);
 
 		this.setColor();
-		this.addAssets();
+		this.setup();
 	},
 
 	setColor: function() {
@@ -16,10 +17,37 @@ var Game = {
 		this.renderer.render(this.stage);
 	},
 
-	addAssets: function() {
-		PIXI.loader
-		  .add("images/anyImage.png")
-		  .load(setup);
+	setup: function() {
+		this.ennemiesAssets = [
+			"assets/img/ennemy1.png",
+			"assets/img/ennemy2.png",
+			"assets/img/ennemy3.png",
+			"assets/img/ennemy4.png"
+		];
+
+		for(var i = 0; i < this.ennemiesAssets.length; i++) {
+			PIXI.loader
+			  .add(this.ennemiesAssets[i])
+		  	  .load(Enemy.setup.bind(this, i));
+			
+		}
+	},
+
+}
+
+
+Enemy = {
+	setup: function(i) {
+		this.ennemies.push(
+			new PIXI.Sprite(
+				PIXI.loader.resources[
+					this.ennemiesAssets[i]
+				].texture
+			)
+		);
+
+		this.stage.addChild(this.ennemies[this.ennemies.length - 1]);
+		this.renderer.render(this.stage);
 	}
 }
 
