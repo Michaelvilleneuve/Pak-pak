@@ -92,6 +92,7 @@ MainChar = {
     }
 }
 
+
 class Enemy {
     constructor(case_id, type) {
         this.case_id = case_id;

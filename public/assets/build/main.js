@@ -134,6 +134,7 @@ MainChar = {
     }
 }
 
+
 var Enemy = (function(){"use strict";var proto$0={};
     function Enemy(case_id, type) {
         this.case_id = case_id;

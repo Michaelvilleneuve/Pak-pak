@@ -58,6 +58,7 @@ section.game {
 				width: 70px;
 				position: absolute;
 				bottom: 0;
+				
 				&.rotate {
 					-moz-transform: scale(-1, 1);
 					-webkit-transform: scale(-1, 1);
