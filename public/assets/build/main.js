@@ -40,6 +40,22 @@ $('#next').click(function()  {
     this.score += points;
   };
 MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
+;function show(element) {
+  $(element).show();
+}
+
+function hide(element) {
+  $(element).hide();
+}
+
+function displayPoints() {
+  var element = $('#points');
+  if ($(element).is(":visible")) {
+    hide(element);
+  } else {
+    show(element);
+  }
+}
 ;var Game = {
     enemies: [],
     columns_nb: 49,

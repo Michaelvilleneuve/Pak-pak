@@ -1,3 +1,4 @@
+@charset "UTF-8";
 html {
   height: 100%;
   width: 100%; }
@@ -5,29 +6,34 @@ html {
 body {
   height: 100%;
   font-family: "Arial";
-  background: url("/assets/img/background.png");
-  background-size: 100%; }
+  background: url("/assets/img/background.png") no-repeat center fixed;
+  -webkit-background-size: cover;
+  /* pour anciens Chrome et Safari */
+  background-size: cover;
+  /* version standardis├®e */ }
 
 section {
   float: left;
-  padding-top: 20px;
   height: 100%; }
 
 section.points {
-  width: 20%; }
+  position: absolute;
+  width: 25%;
+  margin-top: 5%;
+  height: 250px; }
   section.points .point-single {
-    border: 2px solid #333;
-    width: 100%;
-    margin: auto;
-    max-width: 200px;
-    height: 250px;
+    border: 1px solid #000000;
+    width: 50%;
+    max-width: 100px;
+    height: 150px;
     overflow: hidden;
     border-radius: 2px;
     margin-bottom: 20px;
-    background: white; }
+    background-color: #ffffff; }
     section.points .point-single header {
-      border-bottom: 2px solid #333;
-      padding: 10px;
+      border-bottom: 1px solid #000000;
+      padding-left: 1rem;
+      padding-bottom: 1rem;
       font-weight: 800; }
     section.points .point-single .body {
       text-align: center; }
@@ -35,11 +41,12 @@ section.points {
       width: 70%; }
 
 section.game {
-  width: 60%; }
+  width: 100%; }
   section.game #game {
     width: 490px;
     height: 490px;
     margin: auto;
+    margin-top: 15rem;
     background: url("/assets/img/plateau.png");
     background-size: 100%; }
     section.game #game .case {
@@ -59,18 +66,19 @@ section.game {
           -ms-transform: scale(-1, 1);
           transform: scale(-1, 1); }
   section.game header {
-    border: 2px solid #333;
+    background-color: #FFFFFF;
     height: 40px; }
     section.game header .player {
-      float: left;
-      width: 50%;
       text-align: center;
-      padding-top: 10px; }
+      padding-top: 1rem; }
 
 section.scores {
-  width: 20%; }
+  position: absolute;
+  right: 0;
+  margin-top: 5%;
+  margin-right: 5%;
+  height: 250px; }
   section.scores .score-array {
-    border: 2px solid #333;
     width: 100%;
     margin: auto;
     max-width: 200px;
@@ -78,9 +86,9 @@ section.scores {
     overflow: hidden;
     border-radius: 2px;
     margin-bottom: 20px;
-    background: white; }
+    background-color: #FFFFFF; }
     section.scores .score-array header {
-      border-bottom: 2px solid #333;
+      border-bottom: 2px solid #673AB7;
       padding: 10px;
       font-weight: 800; }
 
@@ -89,5 +97,29 @@ div#main-container {
 
 div#menu-container #gametype, div#menu-container #gamelevel, div#menu-container #pickname {
   display: none; }
+
+.btn-custom {
+  background: #673AB7;
+  border: none;
+  color: #ffffff; }
+
+.btn-custom:hover {
+  background: #673AB7;
+  border: none;
+  color: #000000; }
+
+.btn-custom:focus {
+  background: #673AB7;
+  border: none;
+  color: #000000; }
+
+.glow {
+  animation: glow 3s infinite alternate; }
+
+@keyframes glow {
+  from {
+    box-shadow: 0px 0px 10px 3px #673AB7; }
+  to {
+    box-shadow: 0px 0px 20px 5px #673AB7; } }
 
 /*# sourceMappingURL=main.css.map */
