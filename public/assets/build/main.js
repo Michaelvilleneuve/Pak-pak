@@ -254,8 +254,39 @@ Game.init();;;// Actions //
 =======
 ;var highscoreCookies = getCookie('highscore');
 
-//console.log(JSON.parse(cookies));
-console.log(highscoreCookies);
+displayHighScore();
+
+function displayHighScore() {
+  var highscoreObject = JSON.parse(highscoreCookies);
+  var bestScore = -1;
+  var nameBest;
+  var indexBest;
+
+  do {
+    for (var key in highscoreObject) {
+      highscoreObject[key].forEach(function(element, index) {
+        if (element > bestScore) {
+          bestScore = element;
+          nameBest = key;
+          indexBest = index;
+        }
+      });
+    }
+    // Add High Score here
+    addHighScore(nameBest, score);
+    // Remove index from array
+    highscoreObject[nameBest].splice(indexBest, 1);
+    // Check if Array is empty for delete it form object
+    if (highscoreObject[nameBest].length === 0) {
+      delete highscoreObject[nameBest];
+    }
+    bestScore = -1;
+  } while (!$.isEmptyObject(highscoreObject));
+}
+
+function addHighScore(name, score) {
+
+}
 ;// Actions //
 >>>>>>> add highscore to cookies
 
