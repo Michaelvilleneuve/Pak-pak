@@ -4,7 +4,9 @@ html {
 
 body {
   height: 100%;
-  font-family: "Arial"; }
+  font-family: "Arial";
+  background: url("/assets/img/background.png");
+  background-size: 100%; }
 
 section {
   float: left;
@@ -21,7 +23,8 @@ section.points {
     height: 250px;
     overflow: hidden;
     border-radius: 2px;
-    margin-bottom: 20px; }
+    margin-bottom: 20px;
+    background: white; }
     section.points .point-single header {
       border-bottom: 2px solid #333;
       padding: 10px;
@@ -33,12 +36,28 @@ section.points {
 
 section.game {
   width: 60%; }
-  section.game canvas {
-    border: 2px solid #333;
-    border-top: 0px;
-    width: 100%;
-    height: calc(100% - 100px);
-    box-sizing: border-box; }
+  section.game #game {
+    width: 490px;
+    height: 490px;
+    margin: auto;
+    background: url("/assets/img/plateau.png");
+    background-size: 100%; }
+    section.game #game .case {
+      height: 70px;
+      width: 70px;
+      position: relative;
+      float: left;
+      box-shadow: 0px 0px 1px brown; }
+      section.game #game .case img {
+        width: 70px;
+        position: absolute;
+        bottom: 0; }
+        section.game #game .case img.rotate {
+          -moz-transform: scale(-1, 1);
+          -webkit-transform: scale(-1, 1);
+          -o-transform: scale(-1, 1);
+          -ms-transform: scale(-1, 1);
+          transform: scale(-1, 1); }
   section.game header {
     border: 2px solid #333;
     height: 40px; }
@@ -58,7 +77,8 @@ section.scores {
     height: 250px;
     overflow: hidden;
     border-radius: 2px;
-    margin-bottom: 20px; }
+    margin-bottom: 20px;
+    background: white; }
     section.scores .score-array header {
       border-bottom: 2px solid #333;
       padding: 10px;
