@@ -3,6 +3,18 @@ var Game = {
     columns_nb: 49,
 
     init: function() {
+        $(document).on('click', '#start', function() {
+            Game.setPlayers();
+            Game.launchGame();
+        })
+    },
+
+    setPlayers: function() {
+        this.p1 = new Player($('#pickname #namej1').val(), 1);
+        this.p2 = new Player($('#pickname #namej2').val(), 2);
+    },
+
+    launchGame: function() {
         this.setPlate();
         this.setEnemies();
         MainChar.init();
@@ -20,9 +32,6 @@ var Game = {
     },
 
     setEvents: function() {
-        $(document).on('click', '.case', function() {
-            Game.update($(this));
-        });
         $('.case').droppable({
             accept: function(el) {
                 if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) {
@@ -52,13 +61,16 @@ var Game = {
         }
     },
 
-
-    update: function(a_case) {
-        console.log(a_case);
+    nextRound: function() {
+        if (this.p2.round < this.p1.round) {
+          this.p2.addRound();
+        } else {
+          this.p1.addRound();
+        }
     },
 
-    setControls: function() {
-
+    currentPlayer: function() {
+        return (this.p2.round > this.p1.round) ? this.p1 : this.p2;
     }
 }
 
@@ -75,10 +87,16 @@ MainChar = {
         let x = $(div).data('x');
         let y = $(div).data('y');
 
+        
         if(id && MainChar.isOnSameLine(x, y)) {
+            Game.currentPlayer().addPoints(Game.enemies[id].points());
+            Game.enemies.splice(id, 1);
             $(div).find('img').remove();
         }
+
+        Game.currentPlayer().addRound();
         this.updatePosition(div);
+        
         return MainChar.isOnSameLine(x, y); 
     },
 

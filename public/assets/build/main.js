@@ -1,43 +1,21 @@
-var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};// Class
-var GameController = (function(){"use strict";function GameController() {}DP$0(GameController,"prototype",{"configurable":false,"enumerable":false,"writable":false});var proto$0={};
-  proto$0.nextRound = function() {
-    if (p2.round < p1.round) {
-      p2.addRound();
-      // @TODO Add css on player for identify
-    } else {
-      p1.addRound();
-      // @TODO Add css on player for identify
-    }
-  };
-
-  proto$0.updateScore = function(player, points) {
-    player.addPoints(points);
-    var scoreId = '#score' + player.id;
-    $(scoreId).html(player.score);
-  };
-MIXIN$0(GameController.prototype,proto$0);proto$0=void 0;return GameController;})();
-
-var gameController = new GameController();
-
-// Actions for testing
-$('#next').click(function()  {
-    gameController.nextRound();
-    gameController.updateScore(p1, 10);
-})
-;var Player = (function(){"use strict";var proto$0={};
+var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};var Player = (function(){"use strict";var proto$0={};
   function Player(name, id) {
     this.id = id;
     this.name = name;
     this.round = 0;
     this.score = 0;
+    
+    $('#player' + this.id).html(this.name);
   }DP$0(Player,"prototype",{"configurable":false,"enumerable":false,"writable":false});
 
   proto$0.addRound = function() {
-    this.round = this.round + 1;
+    this.round++;
   };
 
   proto$0.addPoints = function(points) {
     this.score += points;
+    console.log($('#score'+this.id));
+    $('#score'+this.id).html(this.score);
   };
 MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
 ;var Game = {
@@ -45,6 +23,18 @@ MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
     columns_nb: 49,
 
     init: function() {
+        $(document).on('click', '#start', function() {
+            Game.setPlayers();
+            Game.launchGame();
+        })
+    },
+
+    setPlayers: function() {
+        this.p1 = new Player($('#pickname #namej1').val(), 1);
+        this.p2 = new Player($('#pickname #namej2').val(), 2);
+    },
+
+    launchGame: function() {
         this.setPlate();
         this.setEnemies();
         MainChar.init();
@@ -62,9 +52,6 @@ MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
     },
 
     setEvents: function() {
-        $(document).on('click', '.case', function() {
-            Game.update($(this));
-        });
         $('.case').droppable({
             accept: function(el) {
                 if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) {
@@ -94,13 +81,16 @@ MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
         }
     },
 
-
-    update: function(a_case) {
-        console.log(a_case);
+    nextRound: function() {
+        if (this.p2.round < this.p1.round) {
+          this.p2.addRound();
+        } else {
+          this.p1.addRound();
+        }
     },
 
-    setControls: function() {
-
+    currentPlayer: function() {
+        return (this.p2.round > this.p1.round) ? this.p1 : this.p2;
     }
 }
 
@@ -117,10 +107,16 @@ MainChar = {
         var x = $(div).data('x');
         var y = $(div).data('y');
 
+        
         if(id && MainChar.isOnSameLine(x, y)) {
+            Game.currentPlayer().addPoints(Game.enemies[id].points());
+            Game.enemies.splice(id, 1);
             $(div).find('img').remove();
         }
+
+        Game.currentPlayer().addRound();
         this.updatePosition(div);
+        
         return MainChar.isOnSameLine(x, y); 
     },
 
@@ -185,7 +181,6 @@ $('#gametype').children('button').each(
 );
 
 $('#start').click(function()  {
-  affectName();
   removeSection('#menu-container');
   showSection('#main-container');
 })
@@ -221,10 +216,6 @@ function chooseGameLevel(gamelevelPick) {
 }
 
 function affectName() {
-  p1 = new Player($('#pickname #namej1').val(), 1);
-  p2 = new Player($('#pickname #namej2').val(), 2);
-  $('#player1').html(p1.name);
-  $('#player2').html(p2.name);
   startFirstRound();
 }
 

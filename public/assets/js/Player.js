@@ -4,13 +4,17 @@ class Player {
     this.name = name;
     this.round = 0;
     this.score = 0;
+    
+    $('#player' + this.id).html(this.name);
   }
 
   addRound() {
-    this.round = this.round + 1;
+    this.round++;
   }
 
   addPoints(points) {
     this.score += points;
+    console.log($('#score'+this.id));
+    $('#score'+this.id).html(this.score);
   }
 };
