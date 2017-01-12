@@ -8,6 +8,7 @@ var Game = {
             Game.mode = $('#start').attr('mode');
             Game.setPlayers();
             Game.launchGame();
+            GameAudio.startTheme();
         })
     },
 
@@ -114,6 +115,8 @@ var Game = {
     checkVictory() {
         if(this.winner()) {
             this.addHighScore(this.winner());
+            GameAudio.stopTheme();
+            GameAudio.audios.effects.win.play();
             this.congratulate();
         }
     },
@@ -170,6 +173,7 @@ MainChar = {
             Game.currentPlayer().addPoints(Game.enemies[id].points());
             $(div).find('img').remove();
             Game.enemies[id] = null;
+            GameAudio.audios.effects.beat.play();
             Game.checkVictory();
         }
 
