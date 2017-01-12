@@ -4,53 +4,81 @@
 	<meta charset="UTF-8">
 	<title>Block Boxer</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="assets/css/spectre.min.css" media="all">
 	<link rel="stylesheet" href="assets/build/main.min.css" media="all">
 	<script type="text/javascript" src="assets/js/vendor/vendor.min.js"></script>
+	<script type="text/javascript" src="assets/js/events.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 	<div id="main-container">
-		<section class="points">
-			<div class="point-single">
-				<header>
-					10 points
-				</header>
-				<div class="body">
-					<img src="assets/img/ennemy2.png" />
-				</div>
-	 		</div>
-	 		<div class="point-single">
-				<header>
-					10 points
-				</header>
-				<div class="body">
-					<img src="assets/img/ennemy3.png" />
-				</div>
-	 		</div>
-		</section>
 		<section class="game">
-			<header>
-				<div class="player">
+			<header class="columns">
+				<div class="player col col-6">
 					<span id="player1">Joueur 1</span> : <span id="score1">0</span> points
 				</div>
-				<div class="player">
+				<div class="player col col-6">
 					<span id="player2">Joueur 2</span> : <span id="score2">0</span> points
 				</div>
-
-				<button type="button" name="button" id="next">Test</button>
 			</header>
-
-			<canvas id="game">
-			</canvas>
+			<div id="game">
+			</div>
 		</section>
 		<section class="scores">
-			<div class="score-array">
-				<header>
-					High Score
+			<div class="score-array glow columns">
+				<header class="col-12">
+					Highscores
 				</header>
-				<ol>
-					<li>xX_SWAGGG_Xx <span class="right">44</span></li>
-					<li>xX_SWAGGG_Xx <span class="right">44</span></li>
+				<ol id="score-list" class="col-12">
 				</ol>
+			</div>
+		</section>
+		<section class="points">
+			<button class="btn btn-custom ml-10 glow" onclick="displayPoints()">-</button>
+			<div id="points" class="container points-container">
+		    <div class="columns col-gapless">
+					<div class="point-single column col-6">
+						<header>
+							10 points
+						</header>
+						<div class="body">
+							<img src="assets/img/ennemy1.png" />
+						</div>
+			 		</div>
+			 		<div class="point-single column col-6">
+						<header>
+							20 points
+						</header>
+						<div class="body">
+							<img src="assets/img/ennemy2.png" />
+						</div>
+			 		</div>
+					<div class="point-single column col-6">
+						<header>
+							30 points
+						</header>
+						<div class="body">
+							<img src="assets/img/ennemy3.png" />
+						</div>
+			 		</div>
+					<div class="point-single column col-6">
+						<header>
+							50 points
+						</header>
+						<div class="body">
+							<img src="assets/img/ennemy4.png" />
+						</div>
+			 		</div>
+					<div class="point-single column col-6">
+						<header>
+							100 points
+						</header>
+						<div class="body">
+							<img src="assets/img/ennemy5.png" />
+						</div>
+			 		</div>
+				</div>
 			</div>
 		</section>
 	</div>
@@ -73,9 +101,9 @@
 
 		<section id="pickname">
 				<label for="namej1">Joueur 1</label>
-				<input type="text" id="namej1" />
+				<input type="text" id="namej1" value="Michael" />
 				<label for="namej2">Joueur 2</label>
-				<input type="text" id="namej2" />
+				<input type="text" id="namej2" value="Youri" />
 				<button id="start">Jouer</button>
 		</section>
 	</div>

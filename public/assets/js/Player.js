@@ -4,13 +4,37 @@ class Player {
     this.name = name;
     this.round = 0;
     this.score = 0;
+    this.eated = {};
+
+    $('#player' + this.id).html(this.name);
   }
 
   addRound() {
-    this.round = this.round + 1;
+    this.round++;
   }
 
   addPoints(points) {
-    this.score += points;
+    (this.didCombo(points)) ? this.score =+ points*3 : this.score += points;
+    console.log($('#score'+this.id));
+    $('#score'+this.id).html(this.score);
+  }
+
+  cleanEated() {
+    this.eated = {};
+  }
+
+  didCombo(points) {
+    if(this.eated[points] === undefined) {
+      this.cleanEated();
+      this.eated[points] = 1;
+    } else {
+      this.eated[points] += 1;
+    }
+
+    if (this.eated[points] === 5) {
+      return true;
+      this.cleanEated();
+    }
+    return false;
   }
 };
