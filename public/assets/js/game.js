@@ -1,9 +1,11 @@
 var Game = {
     enemies: [],
     columns_nb: 49,
+    mode: '',
 
     init: function() {
         $(document).on('click', '#start', function() {
+            Game.mode = $('#start').attr('mode');
             Game.setPlayers();
             Game.launchGame();
         })
@@ -11,7 +13,13 @@ var Game = {
 
     setPlayers: function() {
         this.p1 = new Player($('#pickname #namej1').val(), 1);
-        this.p2 = new Player($('#pickname #namej2').val(), 2);
+        // Set Bot or Players
+        if (this.mode !== 'duo') {
+            this.p2 = new Player('Bot', 2, this.mode);
+        } else {
+            this.p2 = new Player($('#pickname #namej2').val(), 2);
+        }
+
     },
 
     launchGame: function() {
@@ -34,50 +42,121 @@ var Game = {
     setEvents: function() {
         $('.case').droppable({
             accept: function(el) {
-                if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) {
-                    return true;
-                }
+                // Allow drag and drop only if such move is authorized
+                if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) return true;
             },
             drop: function(event, ui) {
+                // Eat target and update positions/points
                 MainChar.eat(event.target);
             },
         });
     },
 
     setEnemies: function() {
-        for(i = 0; i < 49; i++) {
-            const enemy_number = Math.floor(Math.random() * 5) + 1;
-            this.enemies.push(new Enemy(i, enemy_number));
+
+        // Define different types of enemies
+        for(let i = 0; i < 14; i++) {
+            this.enemies.push(new Enemy(0, 1));
+            this.enemies.push(new Enemy(0, 2));
+            this.enemies.push(new Enemy(0, 3));
         }
+        for(let i = 0; i < 5; i++) {
+            this.enemies.push(new Enemy(0, 4));
+        }
+
+        // Shuffle array of enemies randomly
+        this.enemies.sort(function() {
+          return .5 - Math.random();
+        });
+
+        // Define catcher authorized positions
+        const possibleCatcherPosition = [];
+        for(let i = 0; i < 47; i++)
+            if (![3,10,17,21,22,23,24,25,26,27,31,38,45].includes(i))
+                possibleCatcherPosition.push(i);
+
+        // Define and add catcher in any authorized position
+        const catcherPosition = possibleCatcherPosition[Math.floor(Math.random()*possibleCatcherPosition.length)];
+        this.enemies.splice(catcherPosition, 0, new Enemy(0, 5));
+
         this.showEnemies();
     },
 
     showEnemies: function() {
-        for(let i = 0; i < this.enemies.length; i++) {
-            const rotate = ((Math.random() >= 0.5) ? "rotate":"");
-            $('#case-'+this.enemies[i].case_id).append("\
-                <img data-id='"+i+"' class='"+rotate+"' src='"+this.enemies[i].image()+"'>\
-            ");
+        for (let i = 0; i < this.enemies.length + 1; i++) {
+            // Check if case is not middle case
+            if(i !== 24) {
+                const enemyId = (i > 24) ? i-1 : i;
+                const caseId = i+1;
+                const rotate = ((Math.random() >= 0.5) ? "rotate":"");
+
+                this.enemies[enemyId].case_id = caseId;
+
+                $('#case-'+this.enemies[enemyId].case_id).append("\
+                    <img data-id='"+enemyId+"' class='"+rotate+"' src='"+this.enemies[enemyId].image()+"'>\
+                ");
+            }
+
         }
     },
 
     nextRound: function() {
-        if (this.p2.round < this.p1.round) {
+        if (this.p2.round < this.p1.round)
           this.p2.addRound();
-        } else {
+        else
           this.p1.addRound();
-        }
     },
 
     currentPlayer: function() {
         return (this.p2.round > this.p1.round) ? this.p1 : this.p2;
+    },
+
+    checkVictory() {
+        if(this.winner()) {
+            this.addHighScore(this.winner());
+            this.congratulate();
+        }
+    },
+
+    winner() {
+        if (this.p1.score >= 500) return this.p1;
+        if (this.p2.score >= 500) return this.p2;
+        return false;
+    },
+
+    congratulate() {
+        if (confirm(this.winner().name + " a gagné !!!!! Voulez-vous rejouer ?"))
+            document.location.reload();
+        else
+            $('#main-char').draggable('disable');
+    },
+
+    addHighScore(player) {
+        var cookiesObject = {}, highscore;
+        var playerName = player.name;
+        var playerRound = player.round;
+
+        if (highscoreCookies !== null) {
+            cookiesObject = JSON.parse(highscoreCookies);
+            if (cookiesObject.hasOwnProperty(playerName)) {
+                cookiesObject[playerName].push(playerRound);
+            } else {
+                cookiesObject[playerName] = [playerRound];
+            }
+
+            highscore = JSON.stringify(cookiesObject);
+            setCookie('highscore', highscore);
+        } else {
+            cookiesObject[playerName] = [playerRound];
+            highscore = JSON.stringify(cookiesObject);
+            setCookie('highscore', highscore);
+        }
     }
 }
 
-
 MainChar = {
     init: function() {
-        $(".case:not(:has(>img))").append("<img id='main-char' src='assets/img/personnageprincipal.png'>");
+        $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
         $('#main-char').draggable({containment: "#game",revert: 'invalid'});
     },
@@ -87,26 +166,26 @@ MainChar = {
         let x = $(div).data('x');
         let y = $(div).data('y');
 
-        
-        if(id && MainChar.isOnSameLine(x, y)) {
+        if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
             Game.currentPlayer().addPoints(Game.enemies[id].points());
-            Game.enemies.splice(id, 1);
             $(div).find('img').remove();
+            Game.enemies[id] = null;
+            Game.checkVictory();
         }
 
         Game.currentPlayer().addRound();
         this.updatePosition(div);
-        
-        return MainChar.isOnSameLine(x, y); 
+
+        return MainChar.isOnSameLine(x, y);
     },
 
     isOnSameLine(x, y) {
-        return $('#main-char').data('x') === x || $('#main-char').data('y') === y; 
+        return $('#main-char').data('x') === x || $('#main-char').data('y') === y;
     },
 
     updatePosition: function(div) {
-        $('#main-char').data('x', $(div).data('x')); 
-        $('#main-char').data('y', $(div).data('y')); 
+        $('#main-char').data('x', $(div).data('x'));
+        $('#main-char').data('y', $(div).data('y'));
     }
 }
 
@@ -130,10 +209,10 @@ class Enemy {
                 points = 30;
             break;
             case 4:
-                points = 40;
+                points = 50;
             break;
             case 5:
-                points = 50;
+                points = 100;
             break;
         }
         return points;

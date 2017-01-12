@@ -30,6 +30,8 @@ section.points {
   width: 25%;
   margin-top: 5%;
   height: 250px; }
+  section.points #points {
+    display: none; }
   section.points .point-single {
     border: 1px solid #000000;
     width: 50%;
@@ -51,19 +53,31 @@ section.points {
 
 section.game {
   width: 100%; }
+  section.game #board .board_img {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    bottom: 1rem;
+    left: 0;
+    right: 0;
+    height: 520px;
+    width: 560px; }
   section.game #game {
     width: 490px;
     height: 490px;
-    margin: auto;
-    margin-top: 15rem;
-    background: url("/assets/img/plateau.png");
+    position: absolute;
+    bottom: 4rem;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    background: url("/assets/img/plateau.png") no-repeat;
     background-size: 100%; }
     section.game #game .case {
       height: 70px;
       width: 70px;
       position: relative;
-      float: left;
-      box-shadow: 0px 0px 1px brown; }
+      float: left; }
       section.game #game .case img {
         width: 70px;
         position: absolute;
@@ -96,6 +110,8 @@ section.scores {
     border-radius: 2px;
     margin-bottom: 20px;
     background-color: #FFFFFF; }
+    section.scores .score-array #last-score-list {
+      overflow-y: scroll; }
     section.scores .score-array header {
       border-bottom: 2px solid #673AB7;
       padding: 10px;
@@ -112,16 +128,16 @@ div#menu-container {
     width: 200px;
     font-size: 30px;
     color: #6d4481; }
-  div#menu-container #gametype, div#menu-container #gamelevel, div#menu-container #pickname {
-    display: none; }
-    div#menu-container #gametype label, div#menu-container #gamelevel label, div#menu-container #pickname label {
+  div#menu-container #gametype, div#menu-container #gamelevel, div#menu-container #pickname, div#menu-container #pickname-solo {
+    display: none;
+    text-align: center; }
+    div#menu-container #gametype label, div#menu-container #gamelevel label, div#menu-container #pickname label, div#menu-container #pickname-solo label {
       font-size: 25px;
       color: #fff;
       text-shadow: 1px 1px 3px #6d4481; }
-    div#menu-container #gametype input, div#menu-container #gamelevel input, div#menu-container #pickname input {
+    div#menu-container #gametype input, div#menu-container #gamelevel input, div#menu-container #pickname input, div#menu-container #pickname-solo input {
       padding: 7px;
       border-radius: 4px;
-      margin-left: 15px;
       border: 2px solid #6d4481;
       margin-bottom: 15px; }
   div#menu-container section {

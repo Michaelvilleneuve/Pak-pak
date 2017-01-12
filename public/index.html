@@ -3,13 +3,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Block Boxer</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<link rel="stylesheet" href="assets/css/spectre.min.css" media="all">
 	<link rel="stylesheet" href="assets/build/main.min.css" media="all">
 	<script type="text/javascript" src="assets/js/vendor/vendor.min.js"></script>
 	<script type="text/javascript" src="assets/js/events.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="assets/js/vendor/jquery-punch.js"></script>
 </head>
 <body>
 	<a href="/manual.html">Manuel utilisateur</a>
@@ -24,7 +25,10 @@
 					<span id="player2">Joueur 2</span> : <span id="score2">0</span> points
 				</div>
 			</header>
-			<div id="game">
+			<div id="board">
+				<img src="/assets/img/full_map.png" class="board_img"/>
+				<div id="game">
+				</div>
 			</div>
 		</section>
 		<section class="scores">
@@ -33,6 +37,13 @@
 					Highscores
 				</header>
 				<ol id="score-list" class="col-12">
+				</ol>
+			</div>
+			<div class="score-array glow columns">
+				<header class="col-12">
+					Derniers coups
+				</header>
+				<ol id="last-score-list" class="col-12">
 				</ol>
 			</div>
 		</section>
@@ -102,11 +113,15 @@
 		</section>
 
 		<section id="pickname">
-				<label for="namej1">Joueur 1</label>
-				<input type="text" id="namej1" value="Michael" />
-				<label for="namej2">Joueur 2</label>
-				<input type="text" id="namej2" value="Youri" />
-				<button id="start">Jouer</button>
+			<div id="groupej1">
+				<label for="namej1">Joueur 1</label><br>
+				<input type="text" id="namej1" value="Michael" /><br>
+			</div>
+			<div id="groupej2">
+				<label for="namej2">Joueur 2</label><br>
+				<input type="text" id="namej2" value="Youri" /><br>
+			</div>
+				<button id="start" mode='duo'>Jouer</button>
 		</section>
 	</div>
 
