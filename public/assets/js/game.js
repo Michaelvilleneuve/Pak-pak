@@ -34,18 +34,20 @@ var Game = {
     setEvents: function() {
         $('.case').droppable({
             accept: function(el) {
-                if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) {
-                    return true;
-                }
+                // Allow drag and drop only if such move is authorized
+                if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) return true;
             },
             drop: function(event, ui) {
+
+                // Eat target and update positions/points
                 MainChar.eat(event.target);
             },
         });
     },
 
     setEnemies: function() {
-        let caseId = 0;
+
+        // Define different types of enemies
         for(let i = 0; i < 14; i++) {
             this.enemies.push(new Enemy(0, 1));
             this.enemies.push(new Enemy(0, 2));   
@@ -54,17 +56,28 @@ var Game = {
         for(let i = 0; i < 5; i++) {
             this.enemies.push(new Enemy(0, 4));   
         }
-        this.enemies.push(new Enemy(0, 5));
 
+        // Shuffle array of enemies randomly
         this.enemies.sort(function() {
           return .5 - Math.random();
         });
+
+        // Define catcher authorized positions
+        const possibleCatcherPosition = [];
+        for(let i = 0; i < 47; i++)
+            if (![3,10,17,21,22,23,24,25,26,27,31,38,45].includes(i))
+                possibleCatcherPosition.push(i);
+
+        // Define and add catcher in any authorized position
+        const catcherPosition = possibleCatcherPosition[Math.floor(Math.random()*possibleCatcherPosition.length)];
+        this.enemies.splice(catcherPosition, 0, new Enemy(0, 5));
 
         this.showEnemies();
     },
 
     showEnemies: function() {
-        for(let i = 0; i < this.enemies.length + 1; i++) {
+        for (let i = 0; i < this.enemies.length + 1; i++) {
+            // Check if case is not middle case
             if(i !== 24) {
                 const enemyId = (i > 24) ? i-1 : i;
                 const caseId = i+1;
@@ -81,11 +94,10 @@ var Game = {
     },
 
     nextRound: function() {
-        if (this.p2.round < this.p1.round) {
+        if (this.p2.round < this.p1.round)
           this.p2.addRound();
-        } else {
+        else
           this.p1.addRound();
-        }
     },
 
     currentPlayer: function() {
@@ -118,18 +130,19 @@ var Game = {
         var playerRound = player.round;
 
         if (highscoreCookies !== null) {
-          cookiesObject = JSON.parse(highscoreCookies);
-          if (cookiesObject.hasOwnProperty(playerName)) {
-            cookiesObject[playerName].push(playerRound);
-          } else {
-            cookiesObject[playerName] = [playerRound];
-          }
-          highscore = JSON.stringify(cookiesObject);
-          setCookie('highscore', highscore);
+            cookiesObject = JSON.parse(highscoreCookies);
+            if (cookiesObject.hasOwnProperty(playerName)) {
+                cookiesObject[playerName].push(playerRound);
+            } else {
+                cookiesObject[playerName] = [playerRound];
+            }
+          
+            highscore = JSON.stringify(cookiesObject);
+            setCookie('highscore', highscore);
         } else {
-          cookiesObject[playerName] = [playerRound];
-          highscore = JSON.stringify(cookiesObject);
-          setCookie('highscore', highscore);
+            cookiesObject[playerName] = [playerRound];
+            highscore = JSON.stringify(cookiesObject);
+            setCookie('highscore', highscore);
         }
     }
 }

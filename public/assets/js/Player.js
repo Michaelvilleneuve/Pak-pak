@@ -31,8 +31,8 @@ class Player {
     }
 
     if (this.eated[points] === 5) {
-      return true;
       this.cleanEated();
+      return true;
     }
     return false;
   }

@@ -58,8 +58,8 @@ function eraseCookie(name) {
     }
 
     if (this.eated[points] === 5) {
-      return true;
       this.cleanEated();
+      return true;
     }
     return false;
   };
@@ -116,18 +116,20 @@ function displayPoints() {
     setEvents: function() {
         $('.case').droppable({
             accept: function(el) {
-                if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) {
-                    return true;
-                }
+                // Allow drag and drop only if such move is authorized
+                if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) return true;
             },
             drop: function(event, ui) {
+
+                // Eat target and update positions/points
                 MainChar.eat(event.target);
             },
         });
     },
 
     setEnemies: function() {
-        var caseId = 0;
+
+        // Define different types of enemies
         for(var i = 0; i < 14; i++) {
             this.enemies.push(new Enemy(0, 1));
             this.enemies.push(new Enemy(0, 2));   
@@ -136,17 +138,28 @@ function displayPoints() {
         for(var i$0 = 0; i$0 < 5; i$0++) {
             this.enemies.push(new Enemy(0, 4));   
         }
-        this.enemies.push(new Enemy(0, 5));
 
+        // Shuffle array of enemies randomly
         this.enemies.sort(function() {
           return .5 - Math.random();
         });
+
+        // Define catcher authorized positions
+        var possibleCatcherPosition = [];
+        for(var i$1 = 0; i$1 < 47; i$1++)
+            if (![3,10,17,21,22,23,24,25,26,27,31,38,45].includes(i$1))
+                possibleCatcherPosition.push(i$1);
+
+        // Define and add catcher in any authorized position
+        var catcherPosition = possibleCatcherPosition[Math.floor(Math.random()*possibleCatcherPosition.length)];
+        this.enemies.splice(catcherPosition, 0, new Enemy(0, 5));
 
         this.showEnemies();
     },
 
     showEnemies: function() {
-        for(var i = 0; i < this.enemies.length + 1; i++) {
+        for (var i = 0; i < this.enemies.length + 1; i++) {
+            // Check if case is not middle case
             if(i !== 24) {
                 var enemyId = (i > 24) ? i-1 : i;
                 var caseId = i+1;
@@ -163,11 +176,10 @@ function displayPoints() {
     },
 
     nextRound: function() {
-        if (this.p2.round < this.p1.round) {
+        if (this.p2.round < this.p1.round)
           this.p2.addRound();
-        } else {
+        else
           this.p1.addRound();
-        }
     },
 
     currentPlayer: function() {
@@ -200,18 +212,19 @@ function displayPoints() {
         var playerRound = player.round;
 
         if (highscoreCookies !== null) {
-          cookiesObject = JSON.parse(highscoreCookies);
-          if (cookiesObject.hasOwnProperty(playerName)) {
-            cookiesObject[playerName].push(playerRound);
-          } else {
-            cookiesObject[playerName] = [playerRound];
-          }
-          highscore = JSON.stringify(cookiesObject);
-          setCookie('highscore', highscore);
+            cookiesObject = JSON.parse(highscoreCookies);
+            if (cookiesObject.hasOwnProperty(playerName)) {
+                cookiesObject[playerName].push(playerRound);
+            } else {
+                cookiesObject[playerName] = [playerRound];
+            }
+          
+            highscore = JSON.stringify(cookiesObject);
+            setCookie('highscore', highscore);
         } else {
-          cookiesObject[playerName] = [playerRound];
-          highscore = JSON.stringify(cookiesObject);
-          setCookie('highscore', highscore);
+            cookiesObject[playerName] = [playerRound];
+            highscore = JSON.stringify(cookiesObject);
+            setCookie('highscore', highscore);
         }
     }
 }
