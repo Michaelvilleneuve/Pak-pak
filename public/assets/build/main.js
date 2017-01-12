@@ -161,6 +161,10 @@ function displayPoints() {
             Game.launchGame();
             GameAudio.startTheme();
         })
+
+        $(document).on('click', '#mute', function() {
+            GameAudio.toggleMute('theme');
+        })
     },
 
     setPlayers: function() {
