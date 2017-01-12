@@ -6,12 +6,16 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<link rel="stylesheet" href="assets/css/spectre.min.css" media="all">
 	<link rel="stylesheet" href="assets/build/main.min.css" media="all">
+	<script type="text/javascript" src="assets/js/vendor/sounds.js"></script>
 	<script type="text/javascript" src="assets/js/vendor/vendor.min.js"></script>
 	<script type="text/javascript" src="assets/js/events.js"></script>
 	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="assets/js/vendor/jquery-punch.js"></script>
 </head>
 <body>
+	<a href="/manual.html">Manuel utilisateur</a>
+	
 	<div id="main-container">
 		<section class="game">
 			<header class="columns">
@@ -36,9 +40,16 @@
 				<ol id="score-list" class="col-12">
 				</ol>
 			</div>
+			<div class="score-array glow columns">
+				<header class="col-12">
+					Derniers coups
+				</header>
+				<ol id="last-score-list" class="col-12">
+				</ol>
+			</div>
 		</section>
 		<section class="points">
-			<button class="btn btn-custom ml-10 glow" onclick="displayPoints()">-</button>
+			<button class="btn btn-custom ml-10 glow" onclick="displayPoints()">Légende</button>
 			<div id="points" class="container points-container">
 		    <div class="columns col-gapless">
 					<div class="point-single column col-6">
@@ -103,11 +114,15 @@
 		</section>
 
 		<section id="pickname">
+			<div id="groupej1">
 				<label for="namej1">Joueur 1</label><br>
 				<input type="text" id="namej1" value="Michael" /><br>
+			</div>
+			<div id="groupej2">
 				<label for="namej2">Joueur 2</label><br>
 				<input type="text" id="namej2" value="Youri" /><br>
-				<button id="start">Jouer</button>
+			</div>
+				<button id="start" mode='duo'>Jouer</button>
 		</section>
 	</div>
 

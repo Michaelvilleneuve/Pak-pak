@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: [
-          'public/assets/js/*.js',
+          [ 'public/assets/js/Player.js', 'public/assets/js/*.js'],
         ],
         dest: 'public/assets/build/main.js'
       }
