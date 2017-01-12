@@ -35,8 +35,12 @@ var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var
     }
 
     if (this.eated[points] === 5) {
-      this.cleanEated();
-      return true;
+        $('body').prepend('<img class="gifEvent" src="/assets/anim/combo.gif" />');
+        setTimeout(function() {
+            $('.gifEvent').remove();
+        }, 2000);
+        this.cleanEated();
+        return true;
     }
     return false;
   };
@@ -61,15 +65,15 @@ MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
 var AI = {
     possiblePositions: function() {
         var positions = [];
-
+        
         for(var x = 1; x < 8; x++) {
             var newPos = [x, MainChar.currentPosition()[1]];
-            if (newPos[0] !== MainChar.currentPosition()[0]) 
+            if (newPos[0] !== MainChar.currentPosition()[0])
                 positions.push(newPos);
         }
         for(var y = 1; y < 8; y++) {
             var newPos$0 = [MainChar.currentPosition()[0], y];
-            if (newPos$0[1] !== MainChar.currentPosition()[1]) 
+            if (newPos$0[1] !== MainChar.currentPosition()[1])
                 positions.push(newPos$0);
         }
         return positions;
@@ -92,7 +96,7 @@ var AI = {
 
     mediumMove: function() {
         var goodPositions = this.possiblePositions();
-        
+
         for (var i$0 = 0; i$0 < goodPositions.length; i$0++)
             var div = $('div[data-x='+goodPositions[i$0][0]+'][data-y='+goodPositions[i$0][1]+']');
             if (div.children().length === 0 || !div.find('img').attr('data-id'))
@@ -613,7 +617,9 @@ function removeSection(sectionId) {
 }
 
 function showSection(sectionId) {
-    $(sectionId).fadeIn(300);
+    setTimeout(function() {
+        $(sectionId).fadeIn(500);
+    }, 400)
 }
 ;// support for IE11
 if (!Array.prototype.includes) {

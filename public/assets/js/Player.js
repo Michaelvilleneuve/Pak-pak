@@ -35,8 +35,12 @@ class Player {
     }
 
     if (this.eated[points] === 5) {
-      this.cleanEated();
-      return true;
+        $('body').prepend('<img class="gifEvent" src="/assets/anim/combo.gif" />');
+        setTimeout(function() {
+            $('.gifEvent').remove();
+        }, 2000);
+        this.cleanEated();
+        return true;
     }
     return false;
   }
@@ -61,15 +65,15 @@ class Player {
 const AI = {
     possiblePositions: function() {
         let positions = [];
-
+        
         for(let x = 1; x < 8; x++) {
             let newPos = [x, MainChar.currentPosition()[1]];
-            if (newPos[0] !== MainChar.currentPosition()[0]) 
+            if (newPos[0] !== MainChar.currentPosition()[0])
                 positions.push(newPos);
         }
         for(let y = 1; y < 8; y++) {
             let newPos = [MainChar.currentPosition()[0], y];
-            if (newPos[1] !== MainChar.currentPosition()[1]) 
+            if (newPos[1] !== MainChar.currentPosition()[1])
                 positions.push(newPos);
         }
         return positions;
@@ -92,7 +96,7 @@ const AI = {
 
     mediumMove() {
         let goodPositions = this.possiblePositions();
-        
+
         for (let i = 0; i < goodPositions.length; i++)
             var div = $('div[data-x='+goodPositions[i][0]+'][data-y='+goodPositions[i][1]+']');
             if (div.children().length === 0 || !div.find('img').attr('data-id'))

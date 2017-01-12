@@ -92,5 +92,7 @@ function removeSection(sectionId) {
 }
 
 function showSection(sectionId) {
-    $(sectionId).fadeIn(300);
+    setTimeout(function() {
+        $(sectionId).fadeIn(500);
+    }, 400)
 }
