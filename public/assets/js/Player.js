@@ -105,16 +105,21 @@ const AI = {
     },
 
     hardMove() {
-        let goodPositions = this.possiblePositions();
-        
-        for (let i = 0; i < goodPositions.length; i++)
-            if ($('div[data-x='+goodPositions[i][0]+'][data-y='+goodPositions[i][1]+']').children().length === 0)
-                goodPositions[i] = null;
+        let bestPosition = null;
+        let bestValue = 0;
 
-        goodPositions = $.grep(goodPositions,function(n){ return n == 0 || n });
-        goodPositions = (goodPositions.length === 0) ? this.possiblePositions() : goodPositions;
+        for (let i = 0; i < this.possiblePositions().length; i++) {
+            const div = $('div[data-x='+this.possiblePositions()[i][0]+'][data-y='+this.possiblePositions()[i][1]+']');
+            if (div.children().length > 0 && div.find('img').attr('data-id')) {
+                const enemyId = div.find('img').data('id');
+                if (Game.enemies[enemyId].points() > bestValue) {
+                    bestValue = Game.enemies[enemyId].points();
+                    bestPosition = this.possiblePositions()[i];
+                }
+            }
+        }
 
-        this.setNewPos(goodPositions);
+        this.newPosition = bestPosition;
         this.moveChar();
     },
 
