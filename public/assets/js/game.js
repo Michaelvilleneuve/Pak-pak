@@ -159,7 +159,7 @@ MainChar = {
         let x = $(div).data('x');
         let y = $(div).data('y');
 
-        if(id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
+        if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
             Game.currentPlayer().addPoints(Game.enemies[id].points());
             $(div).find('img').remove();
             Game.enemies[id] = null;

@@ -116,6 +116,10 @@ section.scores {
 		margin-bottom: 20px;
 		background-color: #FFFFFF;
 
+		#last-score-list {
+			overflow-y: scroll;
+		}
+
 		header {
 			border-bottom: 2px solid #673AB7;
 			padding: 10px;

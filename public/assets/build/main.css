@@ -101,6 +101,8 @@ section.scores {
     border-radius: 2px;
     margin-bottom: 20px;
     background-color: #FFFFFF; }
+    section.scores .score-array #last-score-list {
+      overflow-y: scroll; }
     section.scores .score-array header {
       border-bottom: 2px solid #673AB7;
       padding: 10px;

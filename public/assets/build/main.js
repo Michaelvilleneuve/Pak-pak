@@ -41,8 +41,10 @@ function eraseCookie(name) {
   };
 
   proto$0.addPoints = function(points) {
-    (this.didCombo(points)) ? this.score += points*3 : this.score += points;
+    var pointWithCombo = (this.didCombo(points)) ? points*3 : points;
+    this.score += pointWithCombo;
     $('#score'+this.id).html(this.score);
+    $('#last-score-list').append('<li>'+this.name+': '+pointWithCombo+' points</li>');
   };
 
   proto$0.cleanEated = function() {
@@ -241,7 +243,7 @@ MainChar = {
         var x = $(div).data('x');
         var y = $(div).data('y');
 
-        if(id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
+        if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
             Game.currentPlayer().addPoints(Game.enemies[id].points());
             $(div).find('img').remove();
             Game.enemies[id] = null;

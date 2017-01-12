@@ -14,8 +14,10 @@ class Player {
   }
 
   addPoints(points) {
-    (this.didCombo(points)) ? this.score += points*3 : this.score += points;
+    const pointWithCombo = (this.didCombo(points)) ? points*3 : points;
+    this.score += pointWithCombo;
     $('#score'+this.id).html(this.score);
+    $('#last-score-list').append('<li>'+this.name+': '+pointWithCombo+' points</li>');
   }
 
   cleanEated() {
