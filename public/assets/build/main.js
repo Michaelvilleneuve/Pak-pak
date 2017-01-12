@@ -167,29 +167,29 @@ function eraseCookie(name) {
     setCookie(name, "", -1);
 }
 ;function show(element) {
-  $(element).show();
+    $(element).show();
 }
 
 function hide(element) {
-  $(element).hide();
+    $(element).hide();
 }
 
 function displayPoints() {
-  var element = $('#points');
-  if ($(element).is(":visible")) {
-    hide(element);
-  } else {
-    show(element);
-  }
+    var element = $('#points');
+    if ($(element).is(":visible")) {
+        hide(element);
+    } else {
+        show(element);
+    }
 }
 
 function displayHisto() {
-  var element = $('#histo');
-  if ($(element).is(":visible")) {
-    hide(element);
-  } else {
-    show(element);
-  }
+    var element = $('#histo');
+    if ($(element).is(":visible")) {
+        hide(element);
+    } else {
+        show(element);
+    }
 }
 
 function goToManual() {
