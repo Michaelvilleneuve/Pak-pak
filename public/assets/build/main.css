@@ -133,12 +133,29 @@ div#main-container {
   display: none; }
 
 div#menu-container {
-  padding: 10% 40%; }
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  top: 0;
+  height: 300px;
+  width: 300px;
+  transition: .5s; }
   div#menu-container button {
     margin: 10px 0px 20px;
     width: 200px;
-    font-size: 30px;
-    color: #6d4481; }
+    font-size: 25px;
+    color: #6d4481;
+    border-radius: 15px;
+    background: white;
+    border: none;
+    border-bottom: 3px solid #6d4481;
+    transition: .3s;
+    cursor: pointer; }
+    div#menu-container button:hover {
+      color: white;
+      background: #6d4481; }
   div#menu-container #gametype, div#menu-container #gamelevel, div#menu-container #pickname, div#menu-container #pickname-solo {
     display: none;
     text-align: center; }

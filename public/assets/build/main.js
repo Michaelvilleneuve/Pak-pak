@@ -616,7 +616,9 @@ function removeSection(sectionId) {
 }
 
 function showSection(sectionId) {
-    $(sectionId).fadeIn(300);
+    setTimeout(function() {
+        $(sectionId).fadeIn(500);
+    }, 400)
 }
 ;// support for IE11
 if (!Array.prototype.includes) {

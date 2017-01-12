@@ -160,13 +160,32 @@ div#main-container {
 }
 
 div#menu-container {
-	padding: 10% 40%;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	top: 0;
+	height: 300px;
+	width: 300px;
+	transition: .5s;
 
 	button {
 		margin: 10px 0px 20px;
 		width: 200px;
-		font-size: 30px;
+		font-size: 25px;
 		color: #6d4481;
+		border-radius: 15px;
+		background: white;
+		border: none;
+		border-bottom: 3px solid #6d4481;
+		transition: .3s;
+		cursor: pointer;
+
+		&:hover {
+			color: white;
+			background: #6d4481;
+		}
 	}
 
 	#gametype, #gamelevel, #pickname, #pickname-solo {
