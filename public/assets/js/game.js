@@ -90,6 +90,47 @@ var Game = {
 
     currentPlayer: function() {
         return (this.p2.round > this.p1.round) ? this.p1 : this.p2;
+    },
+
+    checkVictory() {
+        if(this.winner()) {
+            this.addHighScore(this.winner());
+            this.congratulate();
+        }
+    },
+
+    winner() {
+        if (this.p1.score >= 500) return this.p1;
+        if (this.p2.score >= 500) return this.p2;
+        return false;
+    },
+
+    congratulate() {
+        if (confirm(this.winner().name + " a gagné !!!!! Voulez-vous rejouer ?"))
+            document.location.reload();
+        else
+            $('#main-char').draggable('disable');
+    },
+
+    addHighScore(player) {
+        var cookiesObject = {}, highscore;
+        var playerName = player.name;
+        var playerRound = player.round;
+
+        if (highscoreCookies !== null) {
+          cookiesObject = JSON.parse(highscoreCookies);
+          if (cookiesObject.hasOwnProperty(playerName)) {
+            cookiesObject[playerName].push(playerRound);
+          } else {
+            cookiesObject[playerName] = [playerRound];
+          }
+          highscore = JSON.stringify(cookiesObject);
+          setCookie('highscore', highscore);
+        } else {
+          cookiesObject[playerName] = [playerRound];
+          highscore = JSON.stringify(cookiesObject);
+          setCookie('highscore', highscore);
+        }
     }
 }
 
@@ -109,8 +150,9 @@ MainChar = {
         
         if(id && MainChar.isOnSameLine(x, y)) {
             Game.currentPlayer().addPoints(Game.enemies[id].points());
-            Game.enemies[id] = null;
             $(div).find('img').remove();
+            Game.enemies[id] = null;
+            Game.checkVictory();
         }
 
         Game.currentPlayer().addRound();
