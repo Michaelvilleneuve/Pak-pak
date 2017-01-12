@@ -18,6 +18,9 @@ section.points {
 	width: 25%;
 	margin-top: 5%;
 	height: 250px;
+	#points {
+		display: none;
+	}
 	.point-single {
 		border: 1px solid #000000;
 		width: 50%;
@@ -44,19 +47,34 @@ section.points {
 }
 section.game {
 	width: 100%;
+	#board {
+		.board_img {
+			position: absolute;
+			margin-left: auto;
+			margin-right: auto;
+			bottom: 1rem;
+			left: 0;
+			right: 0;
+			height: 520px;
+			width: 560px;
+		}
+	}
 	#game {
 		width: 490px;
 		height: 490px;
-		margin: auto;
-		margin-top: 15rem;
-		background: url('/assets/img/plateau.png');
+		position: absolute;
+		bottom: 4rem;
+		margin-left: auto;
+		margin-right: auto;
+		left: 0;
+		right: 0;
+		background: url('/assets/img/plateau.png') no-repeat;
 		background-size: 100%;
 		.case {
 			height: 70px;
 			width: 70px;
 			position: relative;
 			float: left;
-			box-shadow: 0px 0px 1px brown;
 			img {
 				width: 70px;
 				position: absolute;
@@ -123,6 +141,7 @@ div#menu-container {
 
 	#gametype, #gamelevel, #pickname {
 		display: none;
+		text-align: center;
 
 		label{
 			font-size : 25px;
@@ -133,7 +152,6 @@ div#menu-container {
 		input {
 			padding: 7px;
 			border-radius: 4px;
-			margin-left: 15px;
 			border: 2px solid #6d4481;
 			margin-bottom: 15px;
 		}
