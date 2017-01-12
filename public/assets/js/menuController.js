@@ -55,6 +55,9 @@ function chooseGameLevel(gamelevelPick) {
         case "medium":
         selectMode(gamelevel);
         break;
+        case "hard":
+        selectMode(gamelevel);
+        break;
     }
 }
 
