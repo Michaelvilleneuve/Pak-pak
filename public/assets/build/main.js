@@ -65,12 +65,8 @@ MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
 var AI = {
     possiblePositions: function() {
         var positions = [];
-
-<<<<<<< HEAD
+        
         for(var x = 1; x < 8; x++) {
-=======
-        for(var x = 1; x < 7; x++) {
->>>>>>> [+] Add combo animation.
             var newPos = [x, MainChar.currentPosition()[1]];
             if (newPos[0] !== MainChar.currentPosition()[0])
                 positions.push(newPos);
@@ -99,9 +95,8 @@ var AI = {
     },
 
     mediumMove: function() {
-<<<<<<< HEAD
         var goodPositions = this.possiblePositions();
-        
+
         for (var i$0 = 0; i$0 < goodPositions.length; i$0++)
             var div = $('div[data-x='+goodPositions[i$0][0]+'][data-y='+goodPositions[i$0][1]+']');
             if (div.children().length === 0 || !div.find('img').attr('data-id'))
@@ -111,10 +106,6 @@ var AI = {
         goodPositions = (goodPositions.length === 0) ? this.possiblePositions() : goodPositions;
 
         this.setNewPos(goodPositions);
-=======
-        var randomElement = Math.floor(Math.random()*this.possiblePositions().length);
-        this.newPosition = this.possiblePositions()[randomElement];
->>>>>>> [+] Add combo animation.
         this.moveChar();
     },
 
@@ -602,6 +593,7 @@ function selectMode(mode) {
     removeP2();
     showSection('#pickname');
 }
+
 // remove player2
 function removeP2() {
     $('#pickname > #groupej2').hide();
