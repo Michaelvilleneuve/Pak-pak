@@ -47,7 +47,7 @@ var Game = {
         $('.case').droppable({
             accept: function(el) {
                 // Allow drag and drop only if such move is authorized
-                if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) return true;
+                if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y')) && !MainChar.isOnSameCase($(this).data('x'), $(this).data('y'))) return true;
             },
             drop: function(event, ui) {
                 // Eat target and update positions/points
@@ -112,13 +112,6 @@ var Game = {
             }
 
         }
-    },
-
-    nextRound: function() {
-        if (this.p2.round < this.p1.round)
-          this.p2.addRound();
-        else
-          this.p1.addRound();
     },
 
     currentPlayer: function() {
@@ -222,6 +215,10 @@ MainChar = {
 
     isOnSameLine(x, y) {
         return $('#main-char').data('x') === x || $('#main-char').data('y') === y;
+    },
+
+    isOnSameCase(x, y) {
+        return $('#main-char').data('x') === x && $('#main-char').data('y') === y;
     },
 
     currentPosition: function() {
