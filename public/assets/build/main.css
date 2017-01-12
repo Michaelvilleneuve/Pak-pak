@@ -10,7 +10,16 @@ body {
   -webkit-background-size: cover;
   /* pour anciens Chrome et Safari */
   background-size: cover;
-  /* version standardis├®e */ }
+  /* version standardisée */ }
+
+#manual {
+  background-color: white;
+  opacity: 0.9;
+  width: 40%;
+  margin: auto;
+  font-size: 1.3em;
+  padding: 0px 15px 10px 15px;
+  margin-bottom: 30px; }
 
 section {
   float: left;
@@ -101,6 +110,8 @@ section.scores {
     border-radius: 2px;
     margin-bottom: 20px;
     background-color: #FFFFFF; }
+    section.scores .score-array #last-score-list {
+      overflow-y: scroll; }
     section.scores .score-array header {
       border-bottom: 2px solid #673AB7;
       padding: 10px;
@@ -117,14 +128,14 @@ div#menu-container {
     width: 200px;
     font-size: 30px;
     color: #6d4481; }
-  div#menu-container #gametype, div#menu-container #gamelevel, div#menu-container #pickname {
+  div#menu-container #gametype, div#menu-container #gamelevel, div#menu-container #pickname, div#menu-container #pickname-solo {
     display: none;
     text-align: center; }
-    div#menu-container #gametype label, div#menu-container #gamelevel label, div#menu-container #pickname label {
+    div#menu-container #gametype label, div#menu-container #gamelevel label, div#menu-container #pickname label, div#menu-container #pickname-solo label {
       font-size: 25px;
       color: #fff;
       text-shadow: 1px 1px 3px #6d4481; }
-    div#menu-container #gametype input, div#menu-container #gamelevel input, div#menu-container #pickname input {
+    div#menu-container #gametype input, div#menu-container #gamelevel input, div#menu-container #pickname input, div#menu-container #pickname-solo input {
       padding: 7px;
       border-radius: 4px;
       border: 2px solid #6d4481;

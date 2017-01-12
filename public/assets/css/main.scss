@@ -9,6 +9,17 @@ body {
 	-webkit-background-size: cover; /* pour anciens Chrome et Safari */
 	background-size: cover; /* version standardisée */
 }
+#manual
+{
+	background-color: white;
+	opacity:0.9;
+	width:40%;
+	margin:auto;
+	font-size:1.3em;
+	padding:0px 15px 10px 15px;
+	margin-bottom:30px;
+}
+
 section {
 	float: left;
 	height: 100%;
@@ -100,6 +111,7 @@ section.game {
 		}
 	}
 }
+
 section.scores {
 	position: absolute;
 	right: 0;
@@ -115,6 +127,10 @@ section.scores {
 		border-radius: 2px;
 		margin-bottom: 20px;
 		background-color: #FFFFFF;
+
+		#last-score-list {
+			overflow-y: scroll;
+		}
 
 		header {
 			border-bottom: 2px solid #673AB7;
@@ -139,7 +155,7 @@ div#menu-container {
 		color: #6d4481;
 	}
 
-	#gametype, #gamelevel, #pickname {
+	#gametype, #gamelevel, #pickname, #pickname-solo {
 		display: none;
 		text-align: center;
 

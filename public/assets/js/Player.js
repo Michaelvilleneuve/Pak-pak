@@ -1,10 +1,12 @@
 class Player {
-  constructor(name, id) {
+  constructor(name, id, mode = 'duo') {
     this.id = id;
     this.name = name;
     this.round = 0;
     this.score = 0;
     this.eated = {};
+    this.mode = mode;
+    this.isBot = (mode !== 'duo');
 
     $('#player' + this.id).html(this.name);
   }
@@ -14,8 +16,10 @@ class Player {
   }
 
   addPoints(points) {
-    (this.didCombo(points)) ? this.score += points*3 : this.score += points;
+    const pointWithCombo = (this.didCombo(points)) ? points*3 : points;
+    this.score += pointWithCombo;
     $('#score'+this.id).html(this.score);
+    $('#last-score-list').append('<li>'+this.name+': '+pointWithCombo+' points</li>');
   }
 
   cleanEated() {

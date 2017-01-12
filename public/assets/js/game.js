@@ -1,17 +1,26 @@
 var Game = {
     enemies: [],
     columns_nb: 49,
+    mode: '',
 
     init: function() {
         $(document).on('click', '#start', function() {
+            Game.mode = $('#start').attr('mode');
             Game.setPlayers();
             Game.launchGame();
+            GameAudio.startTheme();
         })
     },
 
     setPlayers: function() {
         this.p1 = new Player($('#pickname #namej1').val(), 1);
-        this.p2 = new Player($('#pickname #namej2').val(), 2);
+        // Set Bot or Players
+        if (this.mode !== 'duo') {
+            this.p2 = new Player('Bot', 2, this.mode);
+        } else {
+            this.p2 = new Player($('#pickname #namej2').val(), 2);
+        }
+
     },
 
     launchGame: function() {
@@ -38,7 +47,6 @@ var Game = {
                 if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) return true;
             },
             drop: function(event, ui) {
-
                 // Eat target and update positions/points
                 MainChar.eat(event.target);
             },
@@ -50,11 +58,11 @@ var Game = {
         // Define different types of enemies
         for(let i = 0; i < 14; i++) {
             this.enemies.push(new Enemy(0, 1));
-            this.enemies.push(new Enemy(0, 2));   
-            this.enemies.push(new Enemy(0, 3));   
+            this.enemies.push(new Enemy(0, 2));
+            this.enemies.push(new Enemy(0, 3));
         }
         for(let i = 0; i < 5; i++) {
-            this.enemies.push(new Enemy(0, 4));   
+            this.enemies.push(new Enemy(0, 4));
         }
 
         // Shuffle array of enemies randomly
@@ -82,9 +90,9 @@ var Game = {
                 const enemyId = (i > 24) ? i-1 : i;
                 const caseId = i+1;
                 const rotate = ((Math.random() >= 0.5) ? "rotate":"");
-                
+
                 this.enemies[enemyId].case_id = caseId;
-                
+
                 $('#case-'+this.enemies[enemyId].case_id).append("\
                     <img data-id='"+enemyId+"' class='"+rotate+"' src='"+this.enemies[enemyId].image()+"'>\
                 ");
@@ -107,6 +115,8 @@ var Game = {
     checkVictory() {
         if(this.winner()) {
             this.addHighScore(this.winner());
+            GameAudio.stopTheme();
+            GameAudio.audios.effects.win.play();
             this.congratulate();
         }
     },
@@ -136,7 +146,7 @@ var Game = {
             } else {
                 cookiesObject[playerName] = [playerRound];
             }
-          
+
             highscore = JSON.stringify(cookiesObject);
             setCookie('highscore', highscore);
         } else {
@@ -147,12 +157,17 @@ var Game = {
     }
 }
 
-
 MainChar = {
     init: function() {
         $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
-        $('#main-char').draggable({containment: "#game",revert: 'invalid'});
+        $('#main-char').draggable({containment: "#game", revert: 'invalid', start: function() {
+          $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
+        }, stop: function() {
+            if ($('#main-char').attr('src') == "/assets/anim/dragAnimation.gif") {
+                $('#main-char').attr("src","/assets/img/personnageprincipal.png");
+            }
+        }});
     },
 
     eat: function(div) {
@@ -160,30 +175,41 @@ MainChar = {
         let x = $(div).data('x');
         let y = $(div).data('y');
 
-        
-        if(id && MainChar.isOnSameLine(x, y)) {
+
+        if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
+            let mainChar = $('#main-char');
+            let enemy = $(div).find('img');
+
             Game.currentPlayer().addPoints(Game.enemies[id].points());
-            $(div).find('img').remove();
-            Game.enemies[id] = null;
-            Game.checkVictory();
+            GameAudio.audios.effects.beat.play();
+            mainChar.css('right', '+=25');
+            enemy.css('left', '+=25');
+            enemy.attr("src","/assets/anim/animEnemy"+ Game.enemies[id].type + ".gif");
+            mainChar.attr("src","/assets/anim/animPersoPrincipal.gif");
+            setTimeout(function() {
+                mainChar.css('right', '+=-25');
+                enemy.remove();
+                mainChar.attr("src","/assets/img/personnageprincipal.png");
+                Game.enemies[id] = null;
+                Game.checkVictory();
+            }, 1000);
         }
 
         Game.currentPlayer().addRound();
         this.updatePosition(div);
-        
-        return MainChar.isOnSameLine(x, y); 
+
+        return MainChar.isOnSameLine(x, y);
     },
 
     isOnSameLine(x, y) {
-        return $('#main-char').data('x') === x || $('#main-char').data('y') === y; 
+        return $('#main-char').data('x') === x || $('#main-char').data('y') === y;
     },
 
     updatePosition: function(div) {
-        $('#main-char').data('x', $(div).data('x')); 
-        $('#main-char').data('y', $(div).data('y')); 
+        $('#main-char').data('x', $(div).data('x'));
+        $('#main-char').data('y', $(div).data('y'));
     }
 }
-
 
 class Enemy {
     constructor(case_id, type) {
