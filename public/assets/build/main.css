@@ -10,7 +10,7 @@ body {
   -webkit-background-size: cover;
   /* pour anciens Chrome et Safari */
   background-size: cover;
-  /* version standardisée */ }
+  /* version standardis├®e */ }
 
 #manual {
   background-color: white;
@@ -190,11 +190,11 @@ div#menu-container {
 
 .active {
   background: #ffffff;
-  font-weight: normal; }
+  font-weight: bold; }
 
 .inactive {
   background: #cfcfcf;
-  font-weight: bold; }
+  font-weight: normal; }
 
 .glow {
   animation: glow 3s infinite alternate; }
