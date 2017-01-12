@@ -167,7 +167,7 @@ function displayPoints() {
         this.p1 = new Player($('#pickname #namej1').val(), 1);
         // Set Bot or Players
         if (this.mode !== 'duo') {
-            this.p2 = new Player('Bot', 2, this.mode);
+            this.p2 = new Player('El Scobar', 2, this.mode);
         } else {
             this.p2 = new Player($('#pickname #namej2').val(), 2);
         }
@@ -505,6 +505,9 @@ function chooseGameLevel(gamelevelPick) {
         selectMode(gamelevel)
         break;
         case "medium":
+        selectMode(gamelevel);
+        break;
+        case "hard":
         selectMode(gamelevel);
         break;
     }
