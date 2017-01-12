@@ -1,10 +1,12 @@
 class Player {
-  constructor(name, id) {
+  constructor(name, id, mode = 'duo') {
     this.id = id;
     this.name = name;
     this.round = 0;
     this.score = 0;
     this.eated = {};
+    this.mode = mode;
+    this.isBot = (mode !== 'duo');
 
     $('#player' + this.id).html(this.name);
   }

@@ -26,12 +26,14 @@ function eraseCookie(name) {
     setCookie(name, "", -1);
 }
 ;var Player = (function(){"use strict";var proto$0={};
-  function Player(name, id) {
+  function Player(name, id) {var mode = arguments[2];if(mode === void 0)mode = 'duo';
     this.id = id;
     this.name = name;
     this.round = 0;
     this.score = 0;
     this.eated = {};
+    this.mode = mode;
+    this.isBot = (mode !== 'duo');
 
     $('#player' + this.id).html(this.name);
   }DP$0(Player,"prototype",{"configurable":false,"enumerable":false,"writable":false});
@@ -85,9 +87,11 @@ function displayPoints() {
 ;var Game = {
     enemies: [],
     columns_nb: 49,
+    mode: '',
 
     init: function() {
         $(document).on('click', '#start', function() {
+            Game.mode = $('#start').attr('mode');
             Game.setPlayers();
             Game.launchGame();
         })
@@ -95,7 +99,13 @@ function displayPoints() {
 
     setPlayers: function() {
         this.p1 = new Player($('#pickname #namej1').val(), 1);
-        this.p2 = new Player($('#pickname #namej2').val(), 2);
+        // Set Bot or Players
+        if (this.mode !== 'duo') {
+            this.p2 = new Player('Bot', 2, this.mode);
+        } else {
+            this.p2 = new Player($('#pickname #namej2').val(), 2);
+        }
+
     },
 
     launchGame: function() {
@@ -133,11 +143,11 @@ function displayPoints() {
         // Define different types of enemies
         for(var i = 0; i < 14; i++) {
             this.enemies.push(new Enemy(0, 1));
-            this.enemies.push(new Enemy(0, 2));   
-            this.enemies.push(new Enemy(0, 3));   
+            this.enemies.push(new Enemy(0, 2));
+            this.enemies.push(new Enemy(0, 3));
         }
         for(var i$0 = 0; i$0 < 5; i$0++) {
-            this.enemies.push(new Enemy(0, 4));   
+            this.enemies.push(new Enemy(0, 4));
         }
 
         // Shuffle array of enemies randomly
@@ -165,9 +175,9 @@ function displayPoints() {
                 var enemyId = (i > 24) ? i-1 : i;
                 var caseId = i+1;
                 var rotate = ((Math.random() >= 0.5) ? "rotate":"");
-                
+
                 this.enemies[enemyId].case_id = caseId;
-                
+
                 $('#case-'+this.enemies[enemyId].case_id).append("\
                     <img data-id='"+enemyId+"' class='"+rotate+"' src='"+this.enemies[enemyId].image()+"'>\
                 ");
@@ -219,7 +229,7 @@ function displayPoints() {
             } else {
                 cookiesObject[playerName] = [playerRound];
             }
-          
+
             highscore = JSON.stringify(cookiesObject);
             setCookie('highscore', highscore);
         } else {
@@ -229,7 +239,6 @@ function displayPoints() {
         }
     }
 }
-
 
 MainChar = {
     init: function() {
@@ -252,17 +261,17 @@ MainChar = {
 
         Game.currentPlayer().addRound();
         this.updatePosition(div);
-        
-        return MainChar.isOnSameLine(x, y); 
+
+        return MainChar.isOnSameLine(x, y);
     },
 
     isOnSameLine: function(x, y) {
-        return $('#main-char').data('x') === x || $('#main-char').data('y') === y; 
+        return $('#main-char').data('x') === x || $('#main-char').data('y') === y;
     },
 
     updatePosition: function(div) {
-        $('#main-char').data('x', $(div).data('x')); 
-        $('#main-char').data('y', $(div).data('y')); 
+        $('#main-char').data('x', $(div).data('x'));
+        $('#main-char').data('y', $(div).data('y'));
     }
 }
 
@@ -301,7 +310,8 @@ var Enemy = (function(){"use strict";var proto$0={};
 MIXIN$0(Enemy.prototype,proto$0);proto$0=void 0;return Enemy;})();
 
 
-Game.init();;var highscoreCookies = getCookie('highscore');
+Game.init();
+;var highscoreCookies = getCookie('highscore');
 
 displayHighScore();
 
@@ -343,66 +353,93 @@ function addHighScore(name, score) {
 ;// Actions //
 
 $('#play').click(function()  {
-  removeSection('#menu');
-  showSection('#gametype');
+    removeSection('#menu');
+    showSection('#gametype');
 })
 
+// Bind game type buttons
 $('#gametype').children('button').each(
-  function(){var this$0 = this;
-    $(this).click(function()  {
-      chooseGameType(this$0.id);
-    });
-  }
+    function(){var this$0 = this;
+        $(this).click(function()  {
+            chooseGameType(this$0.id);
+        });
+    }
 );
 
 $('#start').click(function()  {
-  removeSection('#menu-container');
-  showSection('#main-container');
+    removeSection('#menu-container');
+    showSection('#main-container');
 })
 
-$('gamelevel').children('button').each(
-  function(){
-    $(this).click(function() {
-      chooseGameLevel(this.id);
-    })
-  }
+//Bind game level buttons
+$('#gamelevel').children('button').each(
+    function(){
+        $(this).click(function() {
+            chooseGameLevel(this.id);
+        });
+    }
 )
 
 // initialise global value
 var p1, p2;
 
-// Function //
+// Function Navigation
 
 function chooseGameType(gametype) {
-  switch (gametype) {
-    case "solo":
-      removeSection('#gametype');
-      showSection('#gamelevel');
-      break;
-    case "duo":
-      removeSection('#gametype');
-      showSection('#pickname');
-      break;
-  }
+    switch (gametype) {
+        case "solo":
+        removeSection('#gametype');
+        showSection('#gamelevel');
+        break;
+        case "duo":
+        removeSection('#gametype');
+        showSection('#pickname');
+        break;
+    }
 }
 
 function chooseGameLevel(gamelevelPick) {
-  var gamelevel = gamelevelPick;
+    var gamelevel = gamelevelPick;
+    switch (gamelevel) {
+        case "easy":
+        selectMode(gamelevel)
+        break;
+        case "medium":
+        selectMode(gamelevel);
+        break;
+    }
+}
+
+// Functions
+function selectMode(mode) {
+    removeSection('#gamelevel');
+    addModeToButton(mode);
+    removeP2();
+    showSection('#pickname');
+}
+
+// remove player2
+function removeP2() {
+    $('#pickname > #groupej2').hide();
+}
+
+function addModeToButton(mode){
+    $('#start').attr('mode', mode);
 }
 
 function affectName() {
-  startFirstRound();
+    startFirstRound();
 }
 
 function startFirstRound() {
-  p1.addRound();
-  $('#round').html(p1.round);
+    p1.addRound();
+    $('#round').html(p1.round);
 }
 
 function removeSection(sectionId) {
-  $(sectionId).fadeOut(300);
+    $(sectionId).fadeOut(300);
 }
 
 function showSection(sectionId) {
-  $(sectionId).fadeIn(300);
+    $(sectionId).fadeIn(300);
 }
