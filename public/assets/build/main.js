@@ -40,6 +40,10 @@ var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var
     }
     return false;
   };
+
+  proto$0.move = function() {
+     
+  };
 MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
 ;function setCookie(name, value, days) {
     var expires;
@@ -133,7 +137,11 @@ function displayPoints() {
             },
             drop: function(event, ui) {
                 // Eat target and update positions/points
-                MainChar.eat(event.target);
+                var moved = MainChar.eat(event.target);
+
+                if (Game.currentPlayer().mode !== 'duo' ) {
+                    this.p2.move();
+                }
             },
         });
     },

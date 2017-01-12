@@ -40,4 +40,8 @@ class Player {
     }
     return false;
   }
+
+  move() {
+     
+  }
 };

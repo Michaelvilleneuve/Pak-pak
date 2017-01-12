@@ -47,7 +47,11 @@ var Game = {
             },
             drop: function(event, ui) {
                 // Eat target and update positions/points
-                MainChar.eat(event.target);
+                let moved = MainChar.eat(event.target);
+
+                if (Game.currentPlayer().mode !== 'duo' ) {
+                    this.p2.move();
+                }
             },
         });
     },
