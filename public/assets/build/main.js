@@ -120,7 +120,6 @@ function displayPoints() {
                 if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) return true;
             },
             drop: function(event, ui) {
-
                 // Eat target and update positions/points
                 MainChar.eat(event.target);
             },
@@ -242,8 +241,7 @@ MainChar = {
         var x = $(div).data('x');
         var y = $(div).data('y');
 
-        
-        if(id && MainChar.isOnSameLine(x, y)) {
+        if(id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
             Game.currentPlayer().addPoints(Game.enemies[id].points());
             $(div).find('img').remove();
             Game.enemies[id] = null;
