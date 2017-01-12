@@ -1,4 +1,47 @@
-var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};function setCookie(name, value, days) {
+var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};var Player = (function(){"use strict";var proto$0={};
+  function Player(name, id) {var mode = arguments[2];if(mode === void 0)mode = 'duo';
+    this.id = id;
+    this.name = name;
+    this.round = 0;
+    this.score = 0;
+    this.eated = {};
+    this.mode = mode;
+    this.isBot = (mode !== 'duo');
+
+    $('#player' + this.id).html(this.name);
+  }DP$0(Player,"prototype",{"configurable":false,"enumerable":false,"writable":false});
+
+  proto$0.addRound = function() {
+    this.round++;
+  };
+
+  proto$0.addPoints = function(points) {
+    var pointWithCombo = (this.didCombo(points)) ? points*3 : points;
+    this.score += pointWithCombo;
+    $('#score'+this.id).html(this.score);
+    $('#last-score-list').prepend('<li>'+this.name+': '+pointWithCombo+' points</li>');
+  };
+
+  proto$0.cleanEated = function() {
+    this.eated = {};
+  };
+
+  proto$0.didCombo = function(points) {
+    if(this.eated[points] === undefined) {
+      this.cleanEated();
+      this.eated[points] = 1;
+    } else {
+      this.eated[points] += 1;
+    }
+
+    if (this.eated[points] === 5) {
+      this.cleanEated();
+      return true;
+    }
+    return false;
+  };
+MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
+;function setCookie(name, value, days) {
     var expires;
 
     if (days) {
@@ -25,49 +68,6 @@ function getCookie(name) {
 function eraseCookie(name) {
     setCookie(name, "", -1);
 }
-;var Player = (function(){"use strict";var proto$0={};
-  function Player(name, id) {var mode = arguments[2];if(mode === void 0)mode = 'duo';
-    this.id = id;
-    this.name = name;
-    this.round = 0;
-    this.score = 0;
-    this.eated = {};
-    this.mode = mode;
-    this.isBot = (mode !== 'duo');
-
-    $('#player' + this.id).html(this.name);
-  }DP$0(Player,"prototype",{"configurable":false,"enumerable":false,"writable":false});
-
-  proto$0.addRound = function() {
-    this.round++;
-  };
-
-  proto$0.addPoints = function(points) {
-    var pointWithCombo = (this.didCombo(points)) ? points*3 : points;
-    this.score += pointWithCombo;
-    $('#score'+this.id).html(this.score);
-    $('#last-score-list').append('<li>'+this.name+': '+pointWithCombo+' points</li>');
-  };
-
-  proto$0.cleanEated = function() {
-    this.eated = {};
-  };
-
-  proto$0.didCombo = function(points) {
-    if(this.eated[points] === undefined) {
-      this.cleanEated();
-      this.eated[points] = 1;
-    } else {
-      this.eated[points] += 1;
-    }
-
-    if (this.eated[points] === 5) {
-      this.cleanEated();
-      return true;
-    }
-    return false;
-  };
-MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
 ;function show(element) {
   $(element).show();
 }
@@ -194,7 +194,7 @@ function displayPoints() {
     },
 
     currentPlayer: function() {
-        return (this.p2.round > this.p1.round) ? this.p1 : this.p2;
+        return (this.p2.round >= this.p1.round) ? this.p1 : this.p2;
     },
 
     checkVictory: function() {
@@ -258,19 +258,11 @@ MainChar = {
         var x = $(div).data('x');
         var y = $(div).data('y');
 
-<<<<<<< HEAD
+
         if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
-=======
-
-        if(id && MainChar.isOnSameLine(x, y)) {
-<<<<<<< HEAD
->>>>>>> [+] Add animations.
-=======
-
             var mainChar = $('#main-char');
             var enemy = $(div).find('img');
 
->>>>>>> [+] Add animations.
             Game.currentPlayer().addPoints(Game.enemies[id].points());
             mainChar.css('right', '+=25');
             enemy.css('left', '+=25');

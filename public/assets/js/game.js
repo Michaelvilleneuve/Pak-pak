@@ -108,7 +108,7 @@ var Game = {
     },
 
     currentPlayer: function() {
-        return (this.p2.round > this.p1.round) ? this.p1 : this.p2;
+        return (this.p2.round >= this.p1.round) ? this.p1 : this.p2;
     },
 
     checkVictory() {
