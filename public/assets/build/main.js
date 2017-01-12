@@ -252,11 +252,21 @@ MainChar = {
         var x = $(div).data('x');
         var y = $(div).data('y');
 
+<<<<<<< HEAD
         if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
+=======
+
+        if(id && MainChar.isOnSameLine(x, y)) {
+>>>>>>> [+] Add animations.
             Game.currentPlayer().addPoints(Game.enemies[id].points());
-            $(div).find('img').remove();
-            Game.enemies[id] = null;
-            Game.checkVictory();
+            $(div).find('img').attr("src","/assets/anim/animEnemy"+ Game.enemies[id].type + ".gif");
+            $('#main-char').attr("src","/assets/anim/animPersoPrincipal.gif");
+            setTimeout(function() {
+              $(div).find('img').remove();
+              $('#main-char').attr("src","/assets/img/personnageprincipal.png");
+              Game.enemies[id] = null;
+              Game.checkVictory();
+            }, 1000);
         }
 
         Game.currentPlayer().addRound();
