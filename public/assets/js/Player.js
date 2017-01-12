@@ -14,8 +14,7 @@ class Player {
   }
 
   addPoints(points) {
-    (this.didCombo(points)) ? this.score =+ points*3 : this.score += points;
-    console.log($('#score'+this.id));
+    (this.didCombo(points)) ? this.score += points*3 : this.score += points;
     $('#score'+this.id).html(this.score);
   }
 
@@ -32,8 +31,8 @@ class Player {
     }
 
     if (this.eated[points] === 5) {
-      return true;
       this.cleanEated();
+      return true;
     }
     return false;
   }

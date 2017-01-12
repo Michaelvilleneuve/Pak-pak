@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Block Boxer</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
 	<link rel="stylesheet" href="assets/css/spectre.min.css" media="all">
 	<link rel="stylesheet" href="assets/build/main.min.css" media="all">
 	<script type="text/javascript" src="assets/js/vendor/vendor.min.js"></script>
@@ -22,7 +22,10 @@
 					<span id="player2">Joueur 2</span> : <span id="score2">0</span> points
 				</div>
 			</header>
-			<div id="game">
+			<div id="board">
+				<img src="/assets/img/full_map.png" class="board_img"/>
+				<div id="game">
+				</div>
 			</div>
 		</section>
 		<section class="scores">
@@ -100,10 +103,10 @@
 		</section>
 
 		<section id="pickname">
-				<label for="namej1">Joueur 1</label>
-				<input type="text" id="namej1" value="Michael" />
-				<label for="namej2">Joueur 2</label>
-				<input type="text" id="namej2" value="Youri" />
+				<label for="namej1">Joueur 1</label><br>
+				<input type="text" id="namej1" value="Michael" /><br>
+				<label for="namej2">Joueur 2</label><br>
+				<input type="text" id="namej2" value="Youri" /><br>
 				<button id="start">Jouer</button>
 		</section>
 	</div>

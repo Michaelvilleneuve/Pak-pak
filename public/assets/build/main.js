@@ -25,54 +25,6 @@ function getCookie(name) {
 function eraseCookie(name) {
     setCookie(name, "", -1);
 }
-;// Class
-var GameController = (function(){"use strict";function GameController() {}DP$0(GameController,"prototype",{"configurable":false,"enumerable":false,"writable":false});var proto$0={};
-  proto$0.nextRound = function() {
-    if (p2.round < p1.round) {
-      p2.addRound();
-      // @TODO Add css on player for identify
-    } else {
-      p1.addRound();
-      // @TODO Add css on player for identify
-    }
-  };
-
-  proto$0.updateScore = function(player, points) {
-    player.addPoints(points);
-    var scoreId = '#score' + player.id;
-    $(scoreId).html(player.score);
-  };
-
-  proto$0.checkVictory = function(player) {
-    if (player.score >= 500) {
-      // @TODO Stop the Game
-
-      // Add player score to highScore in cookies
-      addHighScore(player);
-    }
-  };
-
-  proto$0.addHighScore = function(player) {
-    var cookiesObject = {}, highscore;
-    var playerName = player.name;
-    var playerRound = player.round;
-
-    if (highscoreCookies !== null) {
-      cookiesObject = JSON.parse(highscoreCookies);
-      if (cookiesObject.hasOwnProperty(playerName)) {
-        cookiesObject[playerName].push(playerRound);
-      } else {
-        cookiesObject[playerName] = [playerRound];
-      }
-      highscore = JSON.stringify(cookiesObject);
-      setCookie('highscore', highscore);
-    } else {
-      cookiesObject[playerName] = [playerRound];
-      highscore = JSON.stringify(cookiesObject);
-      setCookie('highscore', highscore);
-    }
-  };
-MIXIN$0(GameController.prototype,proto$0);proto$0=void 0;return GameController;})();
 ;var Player = (function(){"use strict";var proto$0={};
   function Player(name, id) {
     this.id = id;
@@ -89,8 +41,7 @@ MIXIN$0(GameController.prototype,proto$0);proto$0=void 0;return GameController;}
   };
 
   proto$0.addPoints = function(points) {
-    (this.didCombo(points)) ? this.score =+ points*3 : this.score += points;
-    console.log($('#score'+this.id));
+    (this.didCombo(points)) ? this.score += points*3 : this.score += points;
     $('#score'+this.id).html(this.score);
   };
 
@@ -103,12 +54,12 @@ MIXIN$0(GameController.prototype,proto$0);proto$0=void 0;return GameController;}
       this.cleanEated();
       this.eated[points] = 1;
     } else {
-      this.eated[points]++;
+      this.eated[points] += 1;
     }
 
     if (this.eated[points] === 5) {
-      return true;
       this.cleanEated();
+      return true;
     }
     return false;
   };
@@ -165,50 +116,122 @@ function displayPoints() {
     setEvents: function() {
         $('.case').droppable({
             accept: function(el) {
-                if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) {
-                    return true;
-                }
+                // Allow drag and drop only if such move is authorized
+                if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y'))) return true;
             },
             drop: function(event, ui) {
+                // Eat target and update positions/points
                 MainChar.eat(event.target);
             },
         });
     },
 
     setEnemies: function() {
-        for(i = 0; i < 49; i++) {
-            var enemy_number = Math.floor(Math.random() * 5) + 1;
-            this.enemies.push(new Enemy(i, enemy_number));
+
+        // Define different types of enemies
+        for(var i = 0; i < 14; i++) {
+            this.enemies.push(new Enemy(0, 1));
+            this.enemies.push(new Enemy(0, 2));   
+            this.enemies.push(new Enemy(0, 3));   
         }
+        for(var i$0 = 0; i$0 < 5; i$0++) {
+            this.enemies.push(new Enemy(0, 4));   
+        }
+
+        // Shuffle array of enemies randomly
+        this.enemies.sort(function() {
+          return .5 - Math.random();
+        });
+
+        // Define catcher authorized positions
+        var possibleCatcherPosition = [];
+        for(var i$1 = 0; i$1 < 47; i$1++)
+            if (![3,10,17,21,22,23,24,25,26,27,31,38,45].includes(i$1))
+                possibleCatcherPosition.push(i$1);
+
+        // Define and add catcher in any authorized position
+        var catcherPosition = possibleCatcherPosition[Math.floor(Math.random()*possibleCatcherPosition.length)];
+        this.enemies.splice(catcherPosition, 0, new Enemy(0, 5));
+
         this.showEnemies();
     },
 
     showEnemies: function() {
-        for(var i = 0; i < this.enemies.length; i++) {
-            var rotate = ((Math.random() >= 0.5) ? "rotate":"");
-            $('#case-'+this.enemies[i].case_id).append("\
-                <img data-id='"+i+"' class='"+rotate+"' src='"+this.enemies[i].image()+"'>\
-            ");
+        for (var i = 0; i < this.enemies.length + 1; i++) {
+            // Check if case is not middle case
+            if(i !== 24) {
+                var enemyId = (i > 24) ? i-1 : i;
+                var caseId = i+1;
+                var rotate = ((Math.random() >= 0.5) ? "rotate":"");
+                
+                this.enemies[enemyId].case_id = caseId;
+                
+                $('#case-'+this.enemies[enemyId].case_id).append("\
+                    <img data-id='"+enemyId+"' class='"+rotate+"' src='"+this.enemies[enemyId].image()+"'>\
+                ");
+            }
+
         }
     },
 
     nextRound: function() {
-        if (this.p2.round < this.p1.round) {
+        if (this.p2.round < this.p1.round)
           this.p2.addRound();
-        } else {
+        else
           this.p1.addRound();
-        }
     },
 
     currentPlayer: function() {
         return (this.p2.round > this.p1.round) ? this.p1 : this.p2;
+    },
+
+    checkVictory: function() {
+        if(this.winner()) {
+            this.addHighScore(this.winner());
+            this.congratulate();
+        }
+    },
+
+    winner: function() {
+        if (this.p1.score >= 500) return this.p1;
+        if (this.p2.score >= 500) return this.p2;
+        return false;
+    },
+
+    congratulate: function() {
+        if (confirm(this.winner().name + " a gagné !!!!! Voulez-vous rejouer ?"))
+            document.location.reload();
+        else
+            $('#main-char').draggable('disable');
+    },
+
+    addHighScore: function(player) {
+        var cookiesObject = {}, highscore;
+        var playerName = player.name;
+        var playerRound = player.round;
+
+        if (highscoreCookies !== null) {
+            cookiesObject = JSON.parse(highscoreCookies);
+            if (cookiesObject.hasOwnProperty(playerName)) {
+                cookiesObject[playerName].push(playerRound);
+            } else {
+                cookiesObject[playerName] = [playerRound];
+            }
+          
+            highscore = JSON.stringify(cookiesObject);
+            setCookie('highscore', highscore);
+        } else {
+            cookiesObject[playerName] = [playerRound];
+            highscore = JSON.stringify(cookiesObject);
+            setCookie('highscore', highscore);
+        }
     }
 }
 
 
 MainChar = {
     init: function() {
-        $(".case:not(:has(>img))").append("<img id='main-char' src='assets/img/personnageprincipal.png'>");
+        $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
         $('#main-char').draggable({containment: "#game",revert: 'invalid'});
     },
@@ -218,11 +241,11 @@ MainChar = {
         var x = $(div).data('x');
         var y = $(div).data('y');
 
-        
-        if(id && MainChar.isOnSameLine(x, y)) {
+        if(id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
             Game.currentPlayer().addPoints(Game.enemies[id].points());
-            Game.enemies.splice(id, 1);
             $(div).find('img').remove();
+            Game.enemies[id] = null;
+            Game.checkVictory();
         }
 
         Game.currentPlayer().addRound();
@@ -261,10 +284,10 @@ var Enemy = (function(){"use strict";var proto$0={};
                 points = 30;
             break;
             case 4:
-                points = 40;
+                points = 50;
             break;
             case 5:
-                points = 50;
+                points = 100;
             break;
         }
         return points;
