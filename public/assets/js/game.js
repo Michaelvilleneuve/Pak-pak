@@ -1,3 +1,6 @@
+var actualPlayer="";
+var turn = 1;
+
 var Game = {
     enemies: [],
     columns_nb: 49,
@@ -171,6 +174,7 @@ MainChar = {
     init: function() {
         $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
+
         $('#main-char').draggable({containment: "#game", revert: 'invalid', start: function() {
           $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
         }, stop: function() {
@@ -222,6 +226,19 @@ MainChar = {
     updatePosition: function(div) {
         $('#main-char').data('x', $(div).data('x'));
         $('#main-char').data('y', $(div).data('y'));
+
+        if (Game.currentPlayer().name != actualPlayer) {
+			if (turn==1) {
+				$(".player > #player1").parent().removeClass("inactive").addClass("active");
+				$(".player > #player2").parent().removeClass("active").addClass("inactive");
+				turn=2;
+			} else {
+				$(".player > #player1").parent().removeClass("active").addClass("inactive");
+				$(".player > #player2").parent().removeClass("inactive").addClass("active");
+				turn=1;
+			}
+		}
+		actualPlayer=Game.currentPlayer().name;
     }
 }
 

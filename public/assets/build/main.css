@@ -21,6 +21,15 @@ body {
   padding: 0px 15px 10px 15px;
   margin-bottom: 30px; }
 
+#imgPerso {
+  display: none;
+  position: absolute;
+  margin: 10%; }
+
+#showImg {
+  text-decoration: none;
+  font-weight: bold; }
+
 section {
   float: left;
   height: 100%; }
@@ -159,6 +168,14 @@ div#menu-container {
   background: #673AB7;
   border: none;
   color: #000000; }
+
+.active {
+  background: #ffffff;
+  font-weight: normal; }
+
+.inactive {
+  background: #cfcfcf;
+  font-weight: bold; }
 
 .glow {
   animation: glow 3s infinite alternate; }

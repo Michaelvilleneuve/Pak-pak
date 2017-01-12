@@ -55,6 +55,7 @@ var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var
     }
   };
 MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
+<<<<<<< HEAD
 
 
 
@@ -106,6 +107,8 @@ var AI = {
         MainChar.eat(target);
     }
 }
+=======
+>>>>>>> [+] Add active player.
 ;function setCookie(name, value, days) {
     var expires;
 
@@ -149,7 +152,18 @@ function displayPoints() {
     show(element);
   }
 }
-;var Game = {
+
+function goToManual() {
+    location.href='/manual.html';
+}
+
+function quit() {
+    window.alert("Merci de fermer votre onglet ou votre navigateur");
+}
+;var actualPlayer="";
+var turn = 1;
+
+var Game = {
     enemies: [],
     columns_nb: 49,
     mode: '',
@@ -322,6 +336,7 @@ MainChar = {
     init: function() {
         $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
+
         $('#main-char').draggable({containment: "#game", revert: 'invalid', start: function() {
           $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
         }, stop: function() {
@@ -373,6 +388,19 @@ MainChar = {
     updatePosition: function(div) {
         $('#main-char').data('x', $(div).data('x'));
         $('#main-char').data('y', $(div).data('y'));
+
+        if (Game.currentPlayer().name != actualPlayer) {
+			if (turn==1) {
+				$(".player > #player1").parent().removeClass("inactive").addClass("active");
+				$(".player > #player2").parent().removeClass("active").addClass("inactive");
+				turn=2;
+			} else {
+				$(".player > #player1").parent().removeClass("active").addClass("inactive");
+				$(".player > #player2").parent().removeClass("inactive").addClass("active");
+				turn=1;
+			}
+		}
+		actualPlayer=Game.currentPlayer().name;
     }
 }
 

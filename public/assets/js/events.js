@@ -14,3 +14,11 @@ function displayPoints() {
     show(element);
   }
 }
+
+function goToManual() {
+    location.href='/manual.html';
+}
+
+function quit() {
+    window.alert("Merci de fermer votre onglet ou votre navigateur");
+}
