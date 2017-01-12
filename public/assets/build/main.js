@@ -79,7 +79,8 @@ MIXIN$0(GameController.prototype,proto$0);proto$0=void 0;return GameController;}
     this.name = name;
     this.round = 0;
     this.score = 0;
-    
+    this.eated = {};
+
     $('#player' + this.id).html(this.name);
   }DP$0(Player,"prototype",{"configurable":false,"enumerable":false,"writable":false});
 
@@ -88,9 +89,28 @@ MIXIN$0(GameController.prototype,proto$0);proto$0=void 0;return GameController;}
   };
 
   proto$0.addPoints = function(points) {
-    this.score += points;
+    (this.didCombo(points)) ? this.score =+ points*3 : this.score += points;
     console.log($('#score'+this.id));
     $('#score'+this.id).html(this.score);
+  };
+
+  proto$0.cleanEated = function() {
+    this.eated = {};
+  };
+
+  proto$0.didCombo = function(points) {
+    if(this.eated[points] === undefined) {
+      this.cleanEated();
+      this.eated[points] = 1;
+    } else {
+      this.eated[points]++;
+    }
+
+    if (this.eated[points] === 5) {
+      return true;
+      this.cleanEated();
+    }
+    return false;
   };
 MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
 ;function show(element) {
