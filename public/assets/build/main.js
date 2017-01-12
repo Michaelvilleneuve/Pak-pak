@@ -337,7 +337,12 @@ MainChar = {
         $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
 
-        $('#main-char').draggable({containment: "#game", revert: 'invalid', start: function() {
+        $('#main-char').draggable({containment: "#game", revert: function(event) {
+            if (!event) {
+                $('#main-char').attr("src","/assets/anim/rollingAnimation.gif");
+            }
+            return !event;
+        }, start: function() {
           $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
         }, stop: function() {
             if ($('#main-char').attr('src') == "/assets/anim/dragAnimation.gif") {
