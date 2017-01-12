@@ -14,6 +14,11 @@
 	<script type="text/javascript" src="assets/js/vendor/jquery-punch.js"></script>
 </head>
 	<script type="text/javascript" src="assets/build/main.min.js"></script>
+
+	<script type="text/javascript">
+		
+		
+	</script>
 	<script type="text/javascript">
 		function assert(message, func) {
 
@@ -30,7 +35,6 @@
 
 		    }
 		}
-
 	</script>
 	<script type="text/javascript">
 		Game.p1 = new Player("Joueur 1", 1);
@@ -47,6 +51,17 @@
 
 
         assert("Le joueur qui commence n'est pas le bon", function(){
+        	return Game.currentPlayer() === Game.p1;
+        });
+
+        assert("Le joueur ne gagne pas de point d'un tour à l'autre", function(){
+
+        	Game.p1.score = 0;
+        	Game.p2.score = 0;
+
+        	// simuler drag && drop
+        	//$("#main-char")
+
         	return Game.currentPlayer() === Game.p1;
         });
 
