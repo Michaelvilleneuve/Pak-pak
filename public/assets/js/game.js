@@ -51,6 +51,7 @@ var Game = {
                 if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y')) && !MainChar.isOnSameCase($(this).data('x'), $(this).data('y'))) return true;
             },
             drop: function(event, ui) {
+<<<<<<< HEAD
                 $('#main-char').draggable('disable');
 
                 // Eat target and update positions/points
@@ -63,6 +64,18 @@ var Game = {
                         });
                     } else {
                         $('#main-char').draggable({disabled:false});
+=======
+                // Eat target and update positions/points
+                var moved = MainChar.eat(event.target);
+
+                moved.then(function() {
+                    if (Game.currentPlayer().mode !== 'duo' ) {
+                        $('#main-char').draggable('disable');
+
+                        Game.p2.move().then(function() {
+                            $('#main-char').draggable({disabled:false});
+                        });
+>>>>>>> Add promise for async function and remove draggable when bot is playing
                     }
                 });
             },
@@ -177,7 +190,6 @@ MainChar = {
         let id = $(div).find('img').data('id');
         let x = $(div).data('x');
         let y = $(div).data('y');
-
 
         var promise = new Promise(function(resolve, reject) {
             if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {

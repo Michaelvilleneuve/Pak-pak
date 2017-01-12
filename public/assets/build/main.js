@@ -376,11 +376,19 @@ var Game = {
 
                 moved.then(function() {
                     if (Game.currentPlayer().mode !== 'duo' ) {
+<<<<<<< HEAD
                         Game.p2.move().then(function() {
                             $('#main-char').draggable({disabled:false});
                         });
                     } else {
                         $('#main-char').draggable({disabled:false});
+=======
+                        $('#main-char').draggable('disable');
+
+                        Game.p2.move().then(function() {
+                            $('#main-char').draggable({disabled:false});
+                        });
+>>>>>>> Add promise for async function and remove draggable when bot is playing
                     }
                 });
             },
@@ -497,6 +505,7 @@ MainChar = {
         var y = $(div).data('y');
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
             var mainChar = $('#main-char');
@@ -517,6 +526,8 @@ MainChar = {
             }, 1100);
         }
 =======
+=======
+>>>>>>> Add promise for async function and remove draggable when bot is playing
         var promise = new Promise(function(resolve, reject) {
             if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
                 var mainChar = $('#main-char');
@@ -541,6 +552,9 @@ MainChar = {
                 resolve();
             }
         });
+<<<<<<< HEAD
+>>>>>>> Add promise for async function and remove draggable when bot is playing
+=======
 >>>>>>> Add promise for async function and remove draggable when bot is playing
 
         Game.currentPlayer().addRound();
