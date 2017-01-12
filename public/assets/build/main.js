@@ -244,7 +244,13 @@ MainChar = {
     init: function() {
         $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
-        $('#main-char').draggable({containment: "#game",revert: 'invalid'});
+        $('#main-char').draggable({containment: "#game", revert: 'invalid', start: function() {
+          $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
+        }, stop: function() {
+            if ($('#main-char').attr('src') == "/assets/anim/dragAnimation.gif") {
+                $('#main-char').attr("src","/assets/img/personnageprincipal.png");
+            }
+        }});
     },
 
     eat: function(div) {
@@ -257,15 +263,25 @@ MainChar = {
 =======
 
         if(id && MainChar.isOnSameLine(x, y)) {
+<<<<<<< HEAD
+>>>>>>> [+] Add animations.
+=======
+
+            var mainChar = $('#main-char');
+            var enemy = $(div).find('img');
+
 >>>>>>> [+] Add animations.
             Game.currentPlayer().addPoints(Game.enemies[id].points());
-            $(div).find('img').attr("src","/assets/anim/animEnemy"+ Game.enemies[id].type + ".gif");
-            $('#main-char').attr("src","/assets/anim/animPersoPrincipal.gif");
+            mainChar.css('right', '+=25');
+            enemy.css('left', '+=25');
+            enemy.attr("src","/assets/anim/animEnemy"+ Game.enemies[id].type + ".gif");
+            mainChar.attr("src","/assets/anim/animPersoPrincipal.gif");
             setTimeout(function() {
-              $(div).find('img').remove();
-              $('#main-char').attr("src","/assets/img/personnageprincipal.png");
-              Game.enemies[id] = null;
-              Game.checkVictory();
+                mainChar.css('right', '+=-25');
+                enemy.remove();
+                mainChar.attr("src","/assets/img/personnageprincipal.png");
+                Game.enemies[id] = null;
+                Game.checkVictory();
             }, 1000);
         }
 
