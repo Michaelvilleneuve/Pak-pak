@@ -48,13 +48,13 @@ var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var
   proto$0.move = function() {
     switch(this.mode) {
         case 'easy':
-            AI.easyMove();
+            return AI.easyMove();
         break;
         case 'medium':
-            AI.mediumMove();
+            return AI.mediumMove();
         break;
         case 'hard':
-            AI.hardMove();
+            return AI.hardMove();
         break;
     }
   };
@@ -65,7 +65,7 @@ MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
 var AI = {
     possiblePositions: function() {
         var positions = [];
-        
+
         for(var x = 1; x < 8; x++) {
             var newPos = [x, MainChar.currentPosition()[1]];
             if (newPos[0] !== MainChar.currentPosition()[0])
@@ -91,7 +91,7 @@ var AI = {
     easyMove: function() {
         var randomElement = Math.floor(Math.random()*this.possiblePositions().length);
         this.setNewPos(this.possiblePositions());
-        this.moveChar();
+        return this.moveChar();
     },
 
     mediumMove: function() {
@@ -106,7 +106,7 @@ var AI = {
         goodPositions = (goodPositions.length === 0) ? this.possiblePositions() : goodPositions;
 
         this.setNewPos(goodPositions);
-        this.moveChar();
+        return this.moveChar();
     },
 
     hardMove: function() {
@@ -125,7 +125,7 @@ var AI = {
         }
 
         this.newPosition = bestPosition;
-        this.moveChar();
+        return this.moveChar();
     },
 
     moveChar: function() {
@@ -135,12 +135,15 @@ var AI = {
         $('#main-char').css('transition','1s');
         $('#main-char').css('left',targetPosition.left - currentPosition.left)
         $('#main-char').css('top',targetPosition.top - currentPosition.top);
-
-        setTimeout(function() {
-            $('#main-char').css('transition','none');
-            MainChar.eat(AI.getTarget());
-        }, 1000);
-
+        var promise = new Promise(function(resolve, reject) {
+            setTimeout(function() {
+                $('#main-char').css('transition','none');
+                MainChar.eat(AI.getTarget()).then(function(result) {
+                    resolve();
+                });
+            }, 1000);
+        });
+        return promise;
     }
 }
 ;function setCookie(name, value, days) {
@@ -205,6 +208,7 @@ function quit() {
 }
 ;var actualPlayer="";
 var turn = 1;
+var botIsPlaying = false;
 
 var Game = {
     enemies: [],
@@ -258,17 +262,17 @@ var Game = {
                 // Eat target and update positions/points
                 var moved = MainChar.eat(event.target);
 
-                if (Game.currentPlayer().mode !== 'duo' ) {
-                    $(document).trigger('hasPlayed');
-                }
-                return moved;
+                moved.then(function() {
+                    if (Game.currentPlayer().mode !== 'duo' ) {
+                        $('#main-char').draggable('disable');
+
+                        Game.p2.move().then(function() {
+                            $('#main-char').draggable({disabled:false});
+                        });
+                    }
+                });
             },
         });
-        $(document).on('hasPlayed', function() {
-            setTimeout(function() {
-                Game.p2.move();
-            }, 2000)
-        })
     },
 
     setEnemies: function() {
@@ -372,19 +376,7 @@ MainChar = {
     init: function() {
         $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
-
-        $('#main-char').draggable({containment: "#game", revert: function(event, ui) {
-            if (!event) {
-                $('#main-char').attr("src","/assets/anim/rollingAnimation.gif");
-            }
-            return !event;
-        }, start: function() {
-          $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
-        }, stop: function() {
-            if ($('#main-char').attr('src') == "/assets/anim/dragAnimation.gif") {
-                $('#main-char').attr("src","/assets/img/personnageprincipal.png");
-            }
-        }});
+        this.makeDraggable();
     },
 
     eat: function(div) {
@@ -392,6 +384,7 @@ MainChar = {
         var x = $(div).data('x');
         var y = $(div).data('y');
 
+<<<<<<< HEAD
 
         if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
             var mainChar = $('#main-char');
@@ -411,11 +404,38 @@ MainChar = {
                 Game.checkVictory();
             }, 1100);
         }
+=======
+        var promise = new Promise(function(resolve, reject) {
+            if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
+                var mainChar = $('#main-char');
+                var enemy = $(div).find('img');
+
+                Game.currentPlayer().addPoints(Game.enemies[id].points());
+                GameAudio.audios.effects.beat.play();
+                mainChar.css('right', '+=25');
+                enemy.css('left', '+=25');
+                enemy.attr("src","/assets/anim/animEnemy"+ Game.enemies[id].type + ".gif");
+                mainChar.attr("src","/assets/anim/animPersoPrincipal.gif");
+                setTimeout(function() {
+                    mainChar.css('right', '+=-25');
+                    enemy.remove();
+                    mainChar.attr("src","/assets/img/personnageprincipal.png");
+                    Game.enemies[id] = null;
+                    Game.checkVictory();
+                    resolve();
+                }, 1000);
+            } else {
+                // resolve for return promise on empty case
+                resolve();
+            }
+        });
+>>>>>>> Add promise for async function and remove draggable when bot is playing
 
         Game.currentPlayer().addRound();
         this.updatePosition(div);
 
-        return MainChar.isOnSameLine(x, y);
+        return promise;
+        // return MainChar.isOnSameLine(x, y);
     },
 
     isOnSameLine: function(x, y) {
@@ -446,6 +466,21 @@ MainChar = {
 			}
 		}
 		actualPlayer=Game.currentPlayer().name;
+    },
+
+    makeDraggable: function() {
+        $('#main-char').draggable({containment: "#game", revert: function(event, ui) {
+            if (!event) {
+                $('#main-char').attr("src","/assets/anim/rollingAnimation.gif");
+            }
+            return !event;
+        }, start: function() {
+          $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
+        }, stop: function() {
+            if ($('#main-char').attr('src') == "/assets/anim/dragAnimation.gif") {
+                $('#main-char').attr("src","/assets/img/personnageprincipal.png");
+            }
+        }});
     }
 }
 

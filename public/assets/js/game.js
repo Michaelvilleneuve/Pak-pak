@@ -1,5 +1,6 @@
 var actualPlayer="";
 var turn = 1;
+var botIsPlaying = false;
 
 var Game = {
     enemies: [],
@@ -51,19 +52,19 @@ var Game = {
             },
             drop: function(event, ui) {
                 // Eat target and update positions/points
-                let moved = MainChar.eat(event.target);
+                var moved = MainChar.eat(event.target);
 
-                if (Game.currentPlayer().mode !== 'duo' ) {
-                    $(document).trigger('hasPlayed');
-                }
-                return moved;
+                moved.then(function() {
+                    if (Game.currentPlayer().mode !== 'duo' ) {
+                        $('#main-char').draggable('disable');
+
+                        Game.p2.move().then(function() {
+                            $('#main-char').draggable({disabled:false});
+                        });
+                    }
+                });
             },
         });
-        $(document).on('hasPlayed', function() {
-            setTimeout(function() {
-                Game.p2.move();
-            }, 2000)
-        })
     },
 
     setEnemies: function() {
@@ -167,19 +168,7 @@ MainChar = {
     init: function() {
         $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
-
-        $('#main-char').draggable({containment: "#game", revert: function(event, ui) {
-            if (!event) {
-                $('#main-char').attr("src","/assets/anim/rollingAnimation.gif");
-            }
-            return !event;
-        }, start: function() {
-          $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
-        }, stop: function() {
-            if ($('#main-char').attr('src') == "/assets/anim/dragAnimation.gif") {
-                $('#main-char').attr("src","/assets/img/personnageprincipal.png");
-            }
-        }});
+        this.makeDraggable();
     },
 
     eat: function(div) {
@@ -188,29 +177,36 @@ MainChar = {
         let y = $(div).data('y');
 
 
-        if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
-            let mainChar = $('#main-char');
-            let enemy = $(div).find('img');
+        var promise = new Promise(function(resolve, reject) {
+            if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
+                let mainChar = $('#main-char');
+                let enemy = $(div).find('img');
 
-            Game.currentPlayer().addPoints(Game.enemies[id].points());
-            GameAudio.audios.effects.beat.play();
-            mainChar.css('right', '+=25');
-            enemy.css('left', '+=25');
-            enemy.attr("src","/assets/anim/animEnemy"+ Game.enemies[id].type + ".gif");
-            mainChar.attr("src","/assets/anim/animPersoPrincipal.gif");
-            setTimeout(function() {
-                mainChar.css('right', '+=-25');
-                enemy.remove();
-                mainChar.attr("src","/assets/img/personnageprincipal.png");
-                Game.enemies[id] = null;
-                Game.checkVictory();
-            }, 1100);
-        }
+                Game.currentPlayer().addPoints(Game.enemies[id].points());
+                GameAudio.audios.effects.beat.play();
+                mainChar.css('right', '+=25');
+                enemy.css('left', '+=25');
+                enemy.attr("src","/assets/anim/animEnemy"+ Game.enemies[id].type + ".gif");
+                mainChar.attr("src","/assets/anim/animPersoPrincipal.gif");
+                setTimeout(function() {
+                    mainChar.css('right', '+=-25');
+                    enemy.remove();
+                    mainChar.attr("src","/assets/img/personnageprincipal.png");
+                    Game.enemies[id] = null;
+                    Game.checkVictory();
+                    resolve();
+                }, 1100);
+            } else {
+                // resolve for return promise on empty case
+                resolve();
+            }
+        });
 
         Game.currentPlayer().addRound();
         this.updatePosition(div);
 
-        return MainChar.isOnSameLine(x, y);
+        return promise;
+        // return MainChar.isOnSameLine(x, y);
     },
 
     isOnSameLine(x, y) {
@@ -241,6 +237,21 @@ MainChar = {
 			}
 		}
 		actualPlayer=Game.currentPlayer().name;
+    },
+
+    makeDraggable: function() {
+        $('#main-char').draggable({containment: "#game", revert: function(event, ui) {
+            if (!event) {
+                $('#main-char').attr("src","/assets/anim/rollingAnimation.gif");
+            }
+            return !event;
+        }, start: function() {
+          $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
+        }, stop: function() {
+            if ($('#main-char').attr('src') == "/assets/anim/dragAnimation.gif") {
+                $('#main-char').attr("src","/assets/img/personnageprincipal.png");
+            }
+        }});
     }
 }
 

@@ -48,13 +48,13 @@ class Player {
   move() {
     switch(this.mode) {
         case 'easy':
-            AI.easyMove();
+            return AI.easyMove();
         break;
         case 'medium':
-            AI.mediumMove();
+            return AI.mediumMove();
         break;
         case 'hard':
-            AI.hardMove();
+            return AI.hardMove();
         break;
     }
   }
@@ -65,7 +65,7 @@ class Player {
 const AI = {
     possiblePositions: function() {
         let positions = [];
-        
+
         for(let x = 1; x < 8; x++) {
             let newPos = [x, MainChar.currentPosition()[1]];
             if (newPos[0] !== MainChar.currentPosition()[0])
@@ -91,7 +91,7 @@ const AI = {
     easyMove() {
         const randomElement = Math.floor(Math.random()*this.possiblePositions().length);
         this.setNewPos(this.possiblePositions());
-        this.moveChar();
+        return this.moveChar();
     },
 
     mediumMove() {
@@ -106,7 +106,7 @@ const AI = {
         goodPositions = (goodPositions.length === 0) ? this.possiblePositions() : goodPositions;
 
         this.setNewPos(goodPositions);
-        this.moveChar();
+        return this.moveChar();
     },
 
     hardMove() {
@@ -125,7 +125,7 @@ const AI = {
         }
 
         this.newPosition = bestPosition;
-        this.moveChar();
+        return this.moveChar();
     },
 
     moveChar() {
@@ -135,11 +135,14 @@ const AI = {
         $('#main-char').css('transition','1s');
         $('#main-char').css('left',targetPosition.left - currentPosition.left)
         $('#main-char').css('top',targetPosition.top - currentPosition.top);
-
-        setTimeout(function() {
-            $('#main-char').css('transition','none');
-            MainChar.eat(AI.getTarget());
-        }, 1000);
-
+        var promise = new Promise(function(resolve, reject) {
+            setTimeout(function() {
+                $('#main-char').css('transition','none');
+                MainChar.eat(AI.getTarget()).then(function(result) {
+                    resolve();
+                });
+            }, 1000);
+        });
+        return promise;
     }
 }
