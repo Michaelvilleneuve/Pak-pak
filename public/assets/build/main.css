@@ -12,6 +12,15 @@ body {
   background-size: cover;
   /* version standardisée */ }
 
+#manual {
+  background-color: white;
+  opacity: 0.9;
+  width: 40%;
+  margin: auto;
+  font-size: 1.3em;
+  padding: 0px 15px 10px 15px;
+  margin-bottom: 30px; }
+
 section {
   float: left;
   height: 100%; }

@@ -161,7 +161,13 @@ MainChar = {
     init: function() {
         $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
-        $('#main-char').draggable({containment: "#game",revert: 'invalid'});
+        $('#main-char').draggable({containment: "#game", revert: 'invalid', start: function() {
+          $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
+        }, stop: function() {
+            if ($('#main-char').attr('src') == "/assets/anim/dragAnimation.gif") {
+                $('#main-char').attr("src","/assets/img/personnageprincipal.png");
+            }
+        }});
     },
 
     eat: function(div) {
@@ -169,12 +175,25 @@ MainChar = {
         let x = $(div).data('x');
         let y = $(div).data('y');
 
+
         if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
+            let mainChar = $('#main-char');
+            let enemy = $(div).find('img');
+
             Game.currentPlayer().addPoints(Game.enemies[id].points());
             $(div).find('img').remove();
-            Game.enemies[id] = null;
             GameAudio.audios.effects.beat.play();
-            Game.checkVictory();
+            mainChar.css('right', '+=25');
+            enemy.css('left', '+=25');
+            enemy.attr("src","/assets/anim/animEnemy"+ Game.enemies[id].type + ".gif");
+            mainChar.attr("src","/assets/anim/animPersoPrincipal.gif");
+            setTimeout(function() {
+                mainChar.css('right', '+=-25');
+                enemy.remove();
+                mainChar.attr("src","/assets/img/personnageprincipal.png");
+                Game.enemies[id] = null;
+                Game.checkVictory();
+            }, 1000);
         }
 
         Game.currentPlayer().addRound();
@@ -192,7 +211,6 @@ MainChar = {
         $('#main-char').data('y', $(div).data('y'));
     }
 }
-
 
 class Enemy {
     constructor(case_id, type) {
