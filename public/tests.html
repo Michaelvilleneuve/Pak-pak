@@ -1,0 +1,55 @@
+<!doctype html>
+<html class="no-js" lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>Block Boxer</title>
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<link rel="stylesheet" href="assets/css/spectre.min.css" media="all">
+	<link rel="stylesheet" href="assets/build/main.min.css" media="all">
+	<script type="text/javascript" src="assets/js/vendor/sounds.js"></script>
+	<script type="text/javascript" src="assets/js/vendor/vendor.min.js"></script>
+	<script type="text/javascript" src="assets/js/events.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="assets/js/vendor/jquery-punch.js"></script>
+</head>
+	<script type="text/javascript" src="assets/build/main.min.js"></script>
+	<script type="text/javascript">
+		function assert(message, func) {
+
+
+			condition =  func();
+
+		    if (!condition) {
+		        message = message || "Assertion failed";
+		        if (typeof Error !== "undefined") {
+		            throw new Error(message);
+		        }
+		        throw message;
+		    } else {
+
+		    }
+		}
+
+	</script>
+	<script type="text/javascript">
+		Game.p1 = new Player("Joueur 1", 1);
+        Game.p2 = new Player("Joueur 2", 2);
+
+
+        assert("Le joueur gagnant n'est pas le bon", function(){
+        	
+        	Game.p1.addPoints(501);
+        	Game.p2.addPoints(5);
+
+        	return Game.winner().name === Game.p1.name;
+        });
+
+
+        assert("Le joueur qui commence n'est pas le bon", function(){
+        	return Game.currentPlayer() === Game.p1;
+        });
+
+	</script>
+</body>
+</html>
