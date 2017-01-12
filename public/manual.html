@@ -1,0 +1,54 @@
+<!doctype html>
+<html class="no-js" lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>Manuel utilisateur Block Boxer</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="assets/css/spectre.min.css" media="all">
+	<link rel="stylesheet" href="assets/build/main.min.css" media="all">
+	<script type="text/javascript" src="assets/js/vendor/vendor.min.js"></script>
+	<script type="text/javascript" src="assets/js/events.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+	<body>
+		<div id="manual">
+			<h1>Manuel utilisateur Block Boxer</h1>
+			<h2>Présentation du jeu</h2>
+			<p>Vous êtes un boxeur atteint de schizophrènie.</p>
+			<p>Après une longue série de défaites sans aucune victoire (150 combats dont 200 KO quand même), 
+			vous décidez de noyer votre faiblesse dans l'alcool.</p>
+			<p>Ayant un peu forcé sur la bouteille, vous décidez de trouver des adversaires à votre hauteur dans le parc du coin.</p>
+			<p>Vous y trouvez de féroces adversaires qui seront sans pitié et décidez donc de tout donner pour tenter de les vaincre et pourquoi pas prendre votre revanche sur El Scobar.</p>
+			<p>Parviendrez-vous à devenir le nouveau champion du parc ?</p>
+			<br/>
+			<h2>Règles du jeu</h2>
+			<p>Le but du jeu est d'être le premier joueur a atteindre au moins 500 points.</p>
+			<br/>
+			<h2>Lancer une partie</h2>
+			<p>Pour lancer une partie, cliquez sur "Jouer".<p>
+			<p>Choisissez ensuite le mode de jeu: "Solo" pour jouer contre une IA et "Duo" pour jouer contre un autre joueur humain.</p>
+			<p>Si vous avez choisi "Solo", vous allez pouvoir choisir votre difficulté: "Amateur" étant une partie facile, "Boxeur Pro" une partie qui se complique, et "Brutal" qui commence vraiment à se corser.</p>
+			<p>Après avoir choisi votre mode de jeu, vous allez pouvoir choisir votre nom de Champion ! Ce nom sera affiché dans le Hall of fame si vous faites partie des meilleurs.</p>
+			<p>La partie peut ensuite commencer.
+			<br/>
+			<h2>Déroulement d'une partie</h2>
+			<img id="imgPerso" src="assets/img/personnageprincipal.png" style ="display:none; position:absolute; margin-left: 10%"/>
+			<p>Pour atteindre les 500 points, il faudra donc déplacer le <a id="showImg" style="text-decoration:none; font-weight:bold" href="#">personnage principal </a> sur une case de manière horizontale ou verticale (le déplacement en diagonale est interdit) pour aller tabasser la personne se trouvant sur cette case et ainsi gagner les points correspondants.</p>
+			<p>Comme l'indique la légende sur la page de jeu, chaque adversaire vous permet de gagner un certain nombre de points.<p>
+			<p>Si vous tabassez 5 personnages identiques d'affilée, un bonus du triple des points de ce personnage vous sera attribué ! Soyez donc stratégique pour battre votre adversaire.</p>
+			<p>Pour déplacer le personnage, cliquez dessus avec votre souris et allez le déposer sur la case que vous souhaitez atteindre.</p>
+			<p>Dès que vous avez déplacé le boxeur, c'est au tour de l'adversaire. Prévoyez vos coups en avance !</p>
+		</div>
+		<script>
+			var lien = document.getElementById('showImg');
+			var img = document.getElementById('imgPerso');
+			lien.onmouseover = function(){
+				img.style.display = 'block';
+			}
+			lien.onmouseout = function(){
+				img.style.display = 'none';
+			}
+		</script>
+	</body>
+</html>
