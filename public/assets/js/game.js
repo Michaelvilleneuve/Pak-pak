@@ -50,10 +50,16 @@ var Game = {
                 let moved = MainChar.eat(event.target);
 
                 if (Game.currentPlayer().mode !== 'duo' ) {
-                    this.p2.move();
+                    $(document).trigger('hasPlayed');
                 }
+                return moved;
             },
         });
+        $(document).on('hasPlayed', function() {
+            setTimeout(function() {
+                Game.p2.move();
+            }, 2000)
+        })
     },
 
     setEnemies: function() {
@@ -203,6 +209,10 @@ MainChar = {
 
     isOnSameLine(x, y) {
         return $('#main-char').data('x') === x || $('#main-char').data('y') === y;
+    },
+
+    currentPosition: function() {
+        return [parseInt($('#main-char').data('x')), parseInt($('#main-char').data('y'))];
     },
 
     updatePosition: function(div) {
