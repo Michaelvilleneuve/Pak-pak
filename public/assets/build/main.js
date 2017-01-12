@@ -35,8 +35,12 @@ var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var
     }
 
     if (this.eated[points] === 5) {
-      this.cleanEated();
-      return true;
+        $('body').prepend('<img class="gifEvent" src="/assets/anim/combo.gif" />');
+        setTimeout(function() {
+            $('.gifEvent').remove();
+        }, 2000);
+        this.cleanEated();
+        return true;
     }
     return false;
   };
@@ -62,14 +66,18 @@ var AI = {
     possiblePositions: function() {
         var positions = [];
 
+<<<<<<< HEAD
         for(var x = 1; x < 8; x++) {
+=======
+        for(var x = 1; x < 7; x++) {
+>>>>>>> [+] Add combo animation.
             var newPos = [x, MainChar.currentPosition()[1]];
-            if (newPos[0] !== MainChar.currentPosition()[0]) 
+            if (newPos[0] !== MainChar.currentPosition()[0])
                 positions.push(newPos);
         }
         for(var y = 1; y < 8; y++) {
             var newPos$0 = [MainChar.currentPosition()[0], y];
-            if (newPos$0[1] !== MainChar.currentPosition()[1]) 
+            if (newPos$0[1] !== MainChar.currentPosition()[1])
                 positions.push(newPos$0);
         }
         return positions;
@@ -91,6 +99,7 @@ var AI = {
     },
 
     mediumMove: function() {
+<<<<<<< HEAD
         var goodPositions = this.possiblePositions();
         
         for (var i$0 = 0; i$0 < goodPositions.length; i$0++)
@@ -102,6 +111,10 @@ var AI = {
         goodPositions = (goodPositions.length === 0) ? this.possiblePositions() : goodPositions;
 
         this.setNewPos(goodPositions);
+=======
+        var randomElement = Math.floor(Math.random()*this.possiblePositions().length);
+        this.newPosition = this.possiblePositions()[randomElement];
+>>>>>>> [+] Add combo animation.
         this.moveChar();
     },
 
