@@ -94,7 +94,8 @@ const AI = {
         let goodPositions = this.possiblePositions();
         
         for (let i = 0; i < goodPositions.length; i++)
-            if ($('div[data-x='+goodPositions[i][0]+'][data-y='+goodPositions[i][1]+']').children().length === 0)
+            var div = $('div[data-x='+goodPositions[i][0]+'][data-y='+goodPositions[i][1]+']');
+            if (div.children().length === 0 || !div.find('img').attr('data-id'))
                 goodPositions[i] = null;
 
         goodPositions = $.grep(goodPositions,function(n){ return n == 0 || n });

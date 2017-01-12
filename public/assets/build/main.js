@@ -93,8 +93,9 @@ var AI = {
     mediumMove: function() {
         var goodPositions = this.possiblePositions();
         
-        for (var i = 0; i < goodPositions.length; i++)
-            if ($('div[data-x='+goodPositions[i][0]+'][data-y='+goodPositions[i][1]+']').children().length === 0)
+        for (var i$0 = 0; i$0 < goodPositions.length; i$0++)
+            var div = $('div[data-x='+goodPositions[i$0][0]+'][data-y='+goodPositions[i$0][1]+']');
+            if (div.children().length === 0 || !div.find('img').attr('data-id'))
                 goodPositions[i] = null;
 
         goodPositions = $.grep(goodPositions,function(n){ return n == 0 || n });
@@ -181,7 +182,27 @@ function displayPoints() {
     show(element);
   }
 }
-;var Game = {
+
+function displayHisto() {
+  var element = $('#histo');
+  if ($(element).is(":visible")) {
+    hide(element);
+  } else {
+    show(element);
+  }
+}
+
+function goToManual() {
+    location.href='/manual.html';
+}
+
+function quit() {
+    window.alert("Merci de fermer votre onglet ou votre navigateur");
+}
+;var actualPlayer="";
+var turn = 1;
+
+var Game = {
     enemies: [],
     columns_nb: 49,
     mode: '',
@@ -254,7 +275,7 @@ function displayPoints() {
             this.enemies.push(new Enemy(0, 2));
             this.enemies.push(new Enemy(0, 3));
         }
-        for(var i$0 = 0; i$0 < 5; i$0++) {
+        for(var i$1 = 0; i$1 < 5; i$1++) {
             this.enemies.push(new Enemy(0, 4));
         }
 
@@ -265,9 +286,9 @@ function displayPoints() {
 
         // Define catcher authorized positions
         var possibleCatcherPosition = [];
-        for(var i$1 = 0; i$1 < 47; i$1++)
-            if (![3,10,17,21,22,23,24,25,26,27,31,38,45].includes(i$1))
-                possibleCatcherPosition.push(i$1);
+        for(var i$2 = 0; i$2 < 47; i$2++)
+            if (![3,10,17,21,22,23,24,25,26,27,31,38,45].includes(i$2))
+                possibleCatcherPosition.push(i$2);
 
         // Define and add catcher in any authorized position
         var catcherPosition = possibleCatcherPosition[Math.floor(Math.random()*possibleCatcherPosition.length)];
@@ -354,7 +375,13 @@ MainChar = {
     init: function() {
         $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
-        $('#main-char').draggable({containment: "#game", revert: 'invalid', start: function() {
+
+        $('#main-char').draggable({containment: "#game", revert: function(event, ui) {
+            if (!event) {
+                $('#main-char').attr("src","/assets/anim/rollingAnimation.gif");
+            }
+            return !event;
+        }, start: function() {
           $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
         }, stop: function() {
             if ($('#main-char').attr('src') == "/assets/anim/dragAnimation.gif") {
@@ -405,6 +432,19 @@ MainChar = {
     updatePosition: function(div) {
         $('#main-char').data('x', $(div).data('x'));
         $('#main-char').data('y', $(div).data('y'));
+
+        if (Game.currentPlayer().name != actualPlayer) {
+			if (turn==1) {
+				$(".player > #player1").parent().removeClass("inactive").addClass("active");
+				$(".player > #player2").parent().removeClass("active").addClass("inactive");
+				turn=2;
+			} else {
+				$(".player > #player1").parent().removeClass("active").addClass("inactive");
+				$(".player > #player2").parent().removeClass("inactive").addClass("active");
+				turn=1;
+			}
+		}
+		actualPlayer=Game.currentPlayer().name;
     }
 }
 

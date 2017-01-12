@@ -21,6 +21,15 @@ body {
   padding: 0px 15px 10px 15px;
   margin-bottom: 30px; }
 
+#imgPerso {
+  display: none;
+  position: absolute;
+  margin: 10%; }
+
+#showImg {
+  text-decoration: none;
+  font-weight: bold; }
+
 section {
   float: left;
   height: 100%; }
@@ -28,7 +37,7 @@ section {
 section.points {
   position: absolute;
   width: 25%;
-  margin-top: 5%;
+  margin-top: 5rem;
   height: 250px; }
   section.points #points {
     display: none; }
@@ -98,9 +107,11 @@ section.game {
 section.scores {
   position: absolute;
   right: 0;
-  margin-top: 5%;
+  margin-top: 5rem;
   margin-right: 5%;
   height: 250px; }
+  section.scores #histo {
+    display: none; }
   section.scores .score-array {
     width: 100%;
     margin: auto;
@@ -159,6 +170,14 @@ div#menu-container {
   background: #673AB7;
   border: none;
   color: #000000; }
+
+.active {
+  background: #ffffff;
+  font-weight: normal; }
+
+.inactive {
+  background: #cfcfcf;
+  font-weight: bold; }
 
 .glow {
   animation: glow 3s infinite alternate; }

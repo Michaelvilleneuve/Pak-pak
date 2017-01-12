@@ -9,15 +9,26 @@ body {
 	-webkit-background-size: cover; /* pour anciens Chrome et Safari */
 	background-size: cover; /* version standardisée */
 }
-#manual
-{
+
+#manual {
 	background-color: white;
-	opacity:0.9;
-	width:40%;
-	margin:auto;
-	font-size:1.3em;
-	padding:0px 15px 10px 15px;
-	margin-bottom:30px;
+	opacity: 0.9;
+	width: 40%;
+	margin: auto;
+	font-size: 1.3em;
+	padding: 0px 15px 10px 15px;
+	margin-bottom: 30px;
+}
+
+#imgPerso {
+	display: none;
+	position: absolute;
+	margin: 10%;
+}
+
+#showImg {
+	text-decoration: none;
+	font-weight: bold;
 }
 
 section {
@@ -27,7 +38,7 @@ section {
 section.points {
 	position: absolute;
 	width: 25%;
-	margin-top: 5%;
+	margin-top: 5rem;
 	height: 250px;
 	#points {
 		display: none;
@@ -115,9 +126,12 @@ section.game {
 section.scores {
 	position: absolute;
 	right: 0;
-	margin-top: 5%;
+	margin-top: 5rem;
 	margin-right: 5%;
 	height: 250px;
+	#histo {
+		display: none;
+	}
 	.score-array {
 		width: 100%;
 		margin: auto;
@@ -196,6 +210,16 @@ div#menu-container {
 	background: #673AB7;
 	border: none;
 	color: #000000;
+}
+
+.active {
+	background: #ffffff;
+	font-weight: normal;
+}
+
+.inactive {
+	background: #cfcfcf;
+	font-weight: bold;
 }
 
 .glow {
