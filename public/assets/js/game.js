@@ -181,7 +181,6 @@ MainChar = {
             let enemy = $(div).find('img');
 
             Game.currentPlayer().addPoints(Game.enemies[id].points());
-            $(div).find('img').remove();
             GameAudio.audios.effects.beat.play();
             mainChar.css('right', '+=25');
             enemy.css('left', '+=25');
