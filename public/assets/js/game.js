@@ -45,9 +45,9 @@ var Game = {
     },
 
     setEnemies: function() {
-        for(i = 0; i < 48; i++) {
+        for(i = 0; i < 49; i++) {
             const enemy_number = Math.floor(Math.random() * 5) + 1;
-            this.enemies.push(new Enemy(i+1, enemy_number));
+            this.enemies.push(new Enemy(i, enemy_number));
         }
         this.showEnemies();
     },
