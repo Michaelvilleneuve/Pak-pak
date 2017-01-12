@@ -25,7 +25,7 @@ GameAudio = {
 
 	startTheme: function() {
 		this.audios.theme.main.play();
-		this.audios.theme.main.volume = 0.5;
+		this.audios.theme.main.volume = 0.2;
 		this.audios.theme.main.loop = true;
 	},
 
