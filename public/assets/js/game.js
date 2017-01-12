@@ -45,19 +45,38 @@ var Game = {
     },
 
     setEnemies: function() {
-        for(i = 0; i < 49; i++) {
-            const enemy_number = Math.floor(Math.random() * 5) + 1;
-            this.enemies.push(new Enemy(i, enemy_number));
+        let caseId = 0;
+        for(let i = 0; i < 14; i++) {
+            this.enemies.push(new Enemy(0, 1));
+            this.enemies.push(new Enemy(0, 2));   
+            this.enemies.push(new Enemy(0, 3));   
         }
+        for(let i = 0; i < 5; i++) {
+            this.enemies.push(new Enemy(0, 4));   
+        }
+        this.enemies.push(new Enemy(0, 5));
+
+        this.enemies.sort(function() {
+          return .5 - Math.random();
+        });
+
         this.showEnemies();
     },
 
     showEnemies: function() {
-        for(let i = 0; i < this.enemies.length; i++) {
-            const rotate = ((Math.random() >= 0.5) ? "rotate":"");
-            $('#case-'+this.enemies[i].case_id).append("\
-                <img data-id='"+i+"' class='"+rotate+"' src='"+this.enemies[i].image()+"'>\
-            ");
+        for(let i = 0; i < this.enemies.length + 1; i++) {
+            if(i !== 24) {
+                const enemyId = (i > 24) ? i-1 : i;
+                const caseId = i+1;
+                const rotate = ((Math.random() >= 0.5) ? "rotate":"");
+                
+                this.enemies[enemyId].case_id = caseId;
+                
+                $('#case-'+this.enemies[enemyId].case_id).append("\
+                    <img data-id='"+enemyId+"' class='"+rotate+"' src='"+this.enemies[enemyId].image()+"'>\
+                ");
+            }
+
         }
     },
 
@@ -77,7 +96,7 @@ var Game = {
 
 MainChar = {
     init: function() {
-        $(".case:not(:has(>img))").append("<img id='main-char' src='assets/img/personnageprincipal.png'>");
+        $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
         $('#main-char').draggable({containment: "#game",revert: 'invalid'});
     },
@@ -90,7 +109,7 @@ MainChar = {
         
         if(id && MainChar.isOnSameLine(x, y)) {
             Game.currentPlayer().addPoints(Game.enemies[id].points());
-            Game.enemies.splice(id, 1);
+            Game.enemies[id] = null;
             $(div).find('img').remove();
         }
 
@@ -130,10 +149,10 @@ class Enemy {
                 points = 30;
             break;
             case 4:
-                points = 40;
+                points = 50;
             break;
             case 5:
-                points = 50;
+                points = 100;
             break;
         }
         return points;

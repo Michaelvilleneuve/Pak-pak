@@ -14,7 +14,6 @@ class Player {
 
   addPoints(points) {
     this.score += points;
-    console.log($('#score'+this.id));
     $('#score'+this.id).html(this.score);
   }
 };
