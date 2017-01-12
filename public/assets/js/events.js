@@ -15,6 +15,15 @@ function displayPoints() {
   }
 }
 
+function displayHisto() {
+  var element = $('#histo');
+  if ($(element).is(":visible")) {
+    hide(element);
+  } else {
+    show(element);
+  }
+}
+
 function goToManual() {
     location.href='/manual.html';
 }

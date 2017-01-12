@@ -153,6 +153,15 @@ function displayPoints() {
   }
 }
 
+function displayHisto() {
+  var element = $('#histo');
+  if ($(element).is(":visible")) {
+    hide(element);
+  } else {
+    show(element);
+  }
+}
+
 function goToManual() {
     location.href='/manual.html';
 }
@@ -337,7 +346,7 @@ MainChar = {
         $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
         this.updatePosition($('#main-char').parent('div'));
 
-        $('#main-char').draggable({containment: "#game", revert: function(event) {
+        $('#main-char').draggable({containment: "#game", revert: function(event, ui) {
             if (!event) {
                 $('#main-char').attr("src","/assets/anim/rollingAnimation.gif");
             }

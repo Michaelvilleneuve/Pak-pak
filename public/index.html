@@ -31,25 +31,28 @@
 			</div>
 		</section>
 		<section class="scores">
-			<div class="score-array glow columns">
-				<header class="col-12">
-					Highscores
-				</header>
-				<ol id="score-list" class="col-12">
-				</ol>
-			</div>
-			<div class="score-array glow columns">
-				<header class="col-12">
-					Derniers coups
-				</header>
-				<ol id="last-score-list" class="col-12" reversed>
-				</ol>
+			<button class="btn btn-custom float-right glow" onclick="displayHisto()">Historique</button>
+			<div id="histo">
+				<div class="score-array glow columns">
+					<header class="col-12">
+						Highscores
+					</header>
+					<ol id="score-list" class="col-12">
+					</ol>
+				</div>
+				<div class="score-array glow columns">
+					<header class="col-12">
+						Derniers coups
+					</header>
+					<ol id="last-score-list" class="col-12">
+					</ol>
+				</div>
 			</div>
 		</section>
 		<section class="points">
 			<button class="btn btn-custom ml-10 glow" onclick="displayPoints()">Légende</button>
 			<div id="points" class="container points-container">
-		    <div class="columns col-gapless">
+		    	<div class="columns col-gapless">
 					<div class="point-single column col-6">
 						<header>
 							10 points
