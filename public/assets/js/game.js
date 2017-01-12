@@ -48,9 +48,19 @@ var Game = {
             },
             drop: function(event, ui) {
                 // Eat target and update positions/points
-                MainChar.eat(event.target);
+                let moved = MainChar.eat(event.target);
+
+                if (Game.currentPlayer().mode !== 'duo' ) {
+                    $(document).trigger('hasPlayed');
+                }
+                return moved;
             },
         });
+        $(document).on('hasPlayed', function() {
+            setTimeout(function() {
+                Game.p2.move();
+            }, 2000)
+        })
     },
 
     setEnemies: function() {
@@ -109,7 +119,7 @@ var Game = {
     },
 
     currentPlayer: function() {
-        return (this.p2.round > this.p1.round) ? this.p1 : this.p2;
+        return (this.p2.round >= this.p1.round) ? this.p1 : this.p2;
     },
 
     checkVictory() {
@@ -203,6 +213,10 @@ MainChar = {
 
     isOnSameLine(x, y) {
         return $('#main-char').data('x') === x || $('#main-char').data('y') === y;
+    },
+
+    currentPosition: function() {
+        return [parseInt($('#main-char').data('x')), parseInt($('#main-char').data('y'))];
     },
 
     updatePosition: function(div) {

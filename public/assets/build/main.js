@@ -19,7 +19,7 @@ var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var
     var pointWithCombo = (this.didCombo(points)) ? points*3 : points;
     this.score += pointWithCombo;
     $('#score'+this.id).html(this.score);
-    $('#last-score-list').append('<li>'+this.name+': '+pointWithCombo+' points</li>');
+    $('#last-score-list').prepend('<li>'+this.name+': '+pointWithCombo+' points</li>');
   };
 
   proto$0.cleanEated = function() {
@@ -40,7 +40,72 @@ var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var
     }
     return false;
   };
+
+  proto$0.move = function() {
+    switch(this.mode) {
+        case 'easy':
+            AI.easyMove();
+        break;
+        case 'medium':
+            AI.mediumMove();
+        break;
+        case 'hard':
+            AI.hardMove();
+        break;
+    }
+  };
 MIXIN$0(Player.prototype,proto$0);proto$0=void 0;return Player;})();;
+
+
+
+var AI = {
+    possiblePositions: function() {
+        var positions = [];
+        
+        for(var x = 1; x < 7; x++) {
+            var newPos = [x, MainChar.currentPosition()[1]];
+            if (newPos[0] !== MainChar.currentPosition()[0]) 
+                positions.push(newPos);
+        }
+        for(var y = 1; y < 7; y++) {
+            var newPos$0 = [MainChar.currentPosition()[0], y];
+            if (newPos$0[1] !== MainChar.currentPosition()[1]) 
+                positions.push(newPos$0);
+        }
+        return positions;
+    },
+
+    easyMove: function() {
+        var randomElement = Math.floor(Math.random()*this.possiblePositions().length);
+        this.newPosition = this.possiblePositions()[randomElement];
+        this.moveChar();
+    },
+
+    mediumMove: function() {
+        var randomElement = Math.floor(Math.random()*this.possiblePositions().length);
+        this.newPosition = this.possiblePositions()[randomElement];
+        this.moveChar();  
+    },
+
+    hardMove: function() {
+    },
+
+    moveChar: function() {
+        var target = 'div[data-x='+this.newPosition[0]+'][data-y='+this.newPosition[1]+']';
+        var targetPosition = $(target).offset();
+        var currentPosition = $('#main-char').parent('div').offset();
+
+        $('#main-char').css('transition','1s');
+        $('#main-char').css('left',targetPosition.left - currentPosition.left)
+        $('#main-char').css('top',targetPosition.top - currentPosition.top);
+
+        setTimeout(function() {
+            $('#main-char').css('transition','none');
+        }, 1000);
+
+        MainChar.eat(target);
+    }
+}
 ;function setCookie(name, value, days) {
     var expires;
 
@@ -134,9 +199,19 @@ function displayPoints() {
             },
             drop: function(event, ui) {
                 // Eat target and update positions/points
-                MainChar.eat(event.target);
+                var moved = MainChar.eat(event.target);
+
+                if (Game.currentPlayer().mode !== 'duo' ) {
+                    $(document).trigger('hasPlayed');
+                }
+                return moved;
             },
         });
+        $(document).on('hasPlayed', function() {
+            setTimeout(function() {
+                Game.p2.move();
+            }, 2000)
+        })
     },
 
     setEnemies: function() {
@@ -195,7 +270,7 @@ function displayPoints() {
     },
 
     currentPlayer: function() {
-        return (this.p2.round > this.p1.round) ? this.p1 : this.p2;
+        return (this.p2.round >= this.p1.round) ? this.p1 : this.p2;
     },
 
     checkVictory: function() {
@@ -289,6 +364,10 @@ MainChar = {
 
     isOnSameLine: function(x, y) {
         return $('#main-char').data('x') === x || $('#main-char').data('y') === y;
+    },
+
+    currentPosition: function() {
+        return [parseInt($('#main-char').data('x')), parseInt($('#main-char').data('y'))];
     },
 
     updatePosition: function(div) {
