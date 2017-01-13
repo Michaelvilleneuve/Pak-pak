@@ -87,6 +87,8 @@ section.game {
       width: 70px;
       position: relative;
       float: left; }
+      section.game #game .case #main-char {
+        cursor: pointer; }
       section.game #game .case img {
         width: 70px;
         position: absolute;

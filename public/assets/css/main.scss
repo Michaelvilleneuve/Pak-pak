@@ -97,6 +97,11 @@ section.game {
 			width: 70px;
 			position: relative;
 			float: left;
+			
+			#main-char {
+				cursor: pointer;
+			}
+
 			img {
 				width: 70px;
 				position: absolute;
