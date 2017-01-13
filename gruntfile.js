@@ -9,10 +9,21 @@ module.exports = function(grunt) {
       },
       dist: {
         src: [
-          [ 'public/assets/js/Player.js', 'public/assets/js/*.js'],
+            [ 'public/assets/js/polyfill.js',
+              'public/assets/js/sounds.js',
+              'public/assets/js/Player.js',
+              'public/assets/js/*.js'
+            ],
         ],
         dest: 'public/assets/build/main.js'
+      },
+      vendor: {
+          src: [
+              ['public/assets/js/vendor/jquery.js', 'public/assets/js/vendor/*.js'],
+          ],
+          dest: 'public/assets/build/vendor.min.js'
       }
+
     },
     es6transpiler: {
       dist: {
