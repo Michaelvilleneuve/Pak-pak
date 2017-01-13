@@ -1,21 +1,7 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};// support for IE11
 
 // To add to window
 !function(e){function n(){}function t(e,n){return function(){e.apply(n,arguments)}}function o(e){if("object"!=typeof this)throw new TypeError("Promises must be constructed via new");if("function"!=typeof e)throw new TypeError("not a function");this._state=0,this._handled=!1,this._value=void 0,this._deferreds=[],s(e,this)}function i(e,n){for(;3===e._state;)e=e._value;return 0===e._state?void e._deferreds.push(n):(e._handled=!0,void o._immediateFn(function(){var t=1===e._state?n.onFulfilled:n.onRejected;if(null===t)return void(1===e._state?r:u)(n.promise,e._value);var o;try{o=t(e._value)}catch(i){return void u(n.promise,i)}r(n.promise,o)}))}function r(e,n){try{if(n===e)throw new TypeError("A promise cannot be resolved with itself.");if(n&&("object"==typeof n||"function"==typeof n)){var i=n.then;if(n instanceof o)return e._state=3,e._value=n,void f(e);if("function"==typeof i)return void s(t(i,n),e)}e._state=1,e._value=n,f(e)}catch(r){u(e,r)}}function u(e,n){e._state=2,e._value=n,f(e)}function f(e){2===e._state&&0===e._deferreds.length&&o._immediateFn(function(){e._handled||o._unhandledRejectionFn(e._value)});for(var n=0,t=e._deferreds.length;n<t;n++)i(e,e._deferreds[n]);e._deferreds=null}function c(e,n,t){this.onFulfilled="function"==typeof e?e:null,this.onRejected="function"==typeof n?n:null,this.promise=t}function s(e,n){var t=!1;try{e(function(e){t||(t=!0,r(n,e))},function(e){t||(t=!0,u(n,e))})}catch(o){if(t)return;t=!0,u(n,o)}}var a=setTimeout;o.prototype["catch"]=function(e){return this.then(null,e)},o.prototype.then=function(e,t){var o=new this.constructor(n);return i(this,new c(e,t,o)),o},o.all=function(e){var n=Array.prototype.slice.call(e);return new o(function(e,t){function o(r,u){try{if(u&&("object"==typeof u||"function"==typeof u)){var f=u.then;if("function"==typeof f)return void f.call(u,function(e){o(r,e)},t)}n[r]=u,0===--i&&e(n)}catch(c){t(c)}}if(0===n.length)return e([]);for(var i=n.length,r=0;r<n.length;r++)o(r,n[r])})},o.resolve=function(e){return e&&"object"==typeof e&&e.constructor===o?e:new o(function(n){n(e)})},o.reject=function(e){return new o(function(n,t){t(e)})},o.race=function(e){return new o(function(n,t){for(var o=0,i=e.length;o<i;o++)e[o].then(n,t)})},o._immediateFn="function"==typeof setImmediate&&function(e){setImmediate(e)}||function(e){a(e,0)},o._unhandledRejectionFn=function(e){"undefined"!=typeof console&&console&&console.warn("Possible Unhandled Promise Rejection:",e)},o._setImmediateFn=function(e){o._immediateFn=e},o._setUnhandledRejectionFn=function(e){o._unhandledRejectionFn=e},"undefined"!=typeof module&&module.exports?module.exports=o:e.Promise||(e.Promise=o)}(this);
-=======
-var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};// support for IE11
-
-// To add to window
-<<<<<<< HEAD
-if (!window.Promise) {
-    var Promise = require('es6-promise').Promise;
-}
->>>>>>> Add perf optimisation
-=======
-!function(e){function n(){}function t(e,n){return function(){e.apply(n,arguments)}}function o(e){if("object"!=typeof this)throw new TypeError("Promises must be constructed via new");if("function"!=typeof e)throw new TypeError("not a function");this._state=0,this._handled=!1,this._value=void 0,this._deferreds=[],s(e,this)}function i(e,n){for(;3===e._state;)e=e._value;return 0===e._state?void e._deferreds.push(n):(e._handled=!0,void o._immediateFn(function(){var t=1===e._state?n.onFulfilled:n.onRejected;if(null===t)return void(1===e._state?r:u)(n.promise,e._value);var o;try{o=t(e._value)}catch(i){return void u(n.promise,i)}r(n.promise,o)}))}function r(e,n){try{if(n===e)throw new TypeError("A promise cannot be resolved with itself.");if(n&&("object"==typeof n||"function"==typeof n)){var i=n.then;if(n instanceof o)return e._state=3,e._value=n,void f(e);if("function"==typeof i)return void s(t(i,n),e)}e._state=1,e._value=n,f(e)}catch(r){u(e,r)}}function u(e,n){e._state=2,e._value=n,f(e)}function f(e){2===e._state&&0===e._deferreds.length&&o._immediateFn(function(){e._handled||o._unhandledRejectionFn(e._value)});for(var n=0,t=e._deferreds.length;n<t;n++)i(e,e._deferreds[n]);e._deferreds=null}function c(e,n,t){this.onFulfilled="function"==typeof e?e:null,this.onRejected="function"==typeof n?n:null,this.promise=t}function s(e,n){var t=!1;try{e(function(e){t||(t=!0,r(n,e))},function(e){t||(t=!0,u(n,e))})}catch(o){if(t)return;t=!0,u(n,o)}}var a=setTimeout;o.prototype["catch"]=function(e){return this.then(null,e)},o.prototype.then=function(e,t){var o=new this.constructor(n);return i(this,new c(e,t,o)),o},o.all=function(e){var n=Array.prototype.slice.call(e);return new o(function(e,t){function o(r,u){try{if(u&&("object"==typeof u||"function"==typeof u)){var f=u.then;if("function"==typeof f)return void f.call(u,function(e){o(r,e)},t)}n[r]=u,0===--i&&e(n)}catch(c){t(c)}}if(0===n.length)return e([]);for(var i=n.length,r=0;r<n.length;r++)o(r,n[r])})},o.resolve=function(e){return e&&"object"==typeof e&&e.constructor===o?e:new o(function(n){n(e)})},o.reject=function(e){return new o(function(n,t){t(e)})},o.race=function(e){return new o(function(n,t){for(var o=0,i=e.length;o<i;o++)e[o].then(n,t)})},o._immediateFn="function"==typeof setImmediate&&function(e){setImmediate(e)}||function(e){a(e,0)},o._unhandledRejectionFn=function(e){"undefined"!=typeof console&&console&&console.warn("Possible Unhandled Promise Rejection:",e)},o._setImmediateFn=function(e){o._immediateFn=e},o._setUnhandledRejectionFn=function(e){o._unhandledRejectionFn=e},"undefined"!=typeof module&&module.exports?module.exports=o:e.Promise||(e.Promise=o)}(this);
->>>>>>> add verification for undraggable
 
 
 if (!Array.prototype.includes) {
@@ -66,12 +52,6 @@ if (!Array.prototype.includes) {
   });
 }
 ;GameAudio = {
-<<<<<<< HEAD
-=======
-var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};GameAudio = {
->>>>>>> add support for promise for IE11
-=======
->>>>>>> Add perf optimisation
 	audios : {
 		effects : {
 			mute : false,
@@ -389,6 +369,7 @@ var Game = {
                 if(MainChar.isOnSameLine($(this).data('x'), $(this).data('y')) && !MainChar.isOnSameCase($(this).data('x'), $(this).data('y'))) return true;
             },
             drop: function(event, ui) {
+
                 $('#main-char').draggable('disable');
 
                 // Eat target and update positions/points
@@ -396,27 +377,11 @@ var Game = {
 
                 moved.then(function() {
                     if (Game.currentPlayer().mode !== 'duo' ) {
-<<<<<<< HEAD
-<<<<<<< HEAD
                         Game.p2.move().then(function() {
                             $('#main-char').draggable({disabled:false});
                         });
                     } else {
                         $('#main-char').draggable({disabled:false});
-=======
-                        $('#main-char').draggable('disable');
-
-                        Game.p2.move().then(function() {
-                            $('#main-char').draggable({disabled:false});
-                        });
->>>>>>> Add promise for async function and remove draggable when bot is playing
-=======
-                        Game.p2.move().then(function() {
-                            $('#main-char').draggable({disabled:false});
-                        });
-                    } else {
-                        $('#main-char').draggable({disabled:false});
->>>>>>> add verification for undraggable
                     }
                 });
             },
@@ -532,30 +497,6 @@ MainChar = {
         var x = $(div).data('x');
         var y = $(div).data('y');
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-        if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
-            var mainChar = $('#main-char');
-            var enemy = $(div).find('img');
-
-            Game.currentPlayer().addPoints(Game.enemies[id].points());
-            GameAudio.audios.effects.beat.play();
-            mainChar.css('right', '+=25');
-            enemy.css('left', '+=25');
-            enemy.attr("src","/assets/anim/animEnemy"+ Game.enemies[id].type + ".gif");
-            mainChar.attr("src","/assets/anim/animPersoPrincipal.gif");
-            setTimeout(function() {
-                mainChar.css('right', '+=-25');
-                enemy.remove();
-                mainChar.attr("src","/assets/img/personnageprincipal.png");
-                Game.enemies[id] = null;
-                Game.checkVictory();
-            }, 1100);
-        }
-=======
-=======
->>>>>>> Add promise for async function and remove draggable when bot is playing
         var promise = new Promise(function(resolve, reject) {
             if(typeof id !== 'undefined' && MainChar.isOnSameLine(x, y)) {
                 var mainChar = $('#main-char');
@@ -574,16 +515,12 @@ MainChar = {
                     Game.enemies[id] = null;
                     Game.checkVictory();
                     resolve();
-                }, 1000);
+                }, 1100);
             } else {
                 // resolve for return promise on empty case
                 resolve();
             }
         });
-<<<<<<< HEAD
->>>>>>> Add promise for async function and remove draggable when bot is playing
-=======
->>>>>>> Add promise for async function and remove draggable when bot is playing
 
         Game.currentPlayer().addRound();
         this.updatePosition(div);
@@ -810,64 +747,3 @@ function showSection(sectionId) {
         $(sectionId).fadeIn(500);
     }, 400)
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-;// support for IE11
-
-// To add to window
-if (!window.Promise) {
-    var Promise = require('es6-promise').Promise;
-}
-
-
-if (!Array.prototype.includes) {
-  Object.defineProperty(Array.prototype, 'includes', {
-    value: function(searchElement, fromIndex) {
-
-      // 1. Let O be ? ToObject(this value).
-      if (this == null) {
-        throw new TypeError('"this" is null or not defined');
-      }
-
-      var o = Object(this);
-
-      // 2. Let len be ? ToLength(? Get(O, "length")).
-      var len = o.length >>> 0;
-
-      // 3. If len is 0, return false.
-      if (len === 0) {
-        return false;
-      }
-
-      // 4. Let n be ? ToInteger(fromIndex).
-      //    (If fromIndex is undefined, this step produces the value 0.)
-      var n = fromIndex | 0;
-
-      // 5. If n ≥ 0, then
-      //  a. Let k be n.
-      // 6. Else n < 0,
-      //  a. Let k be len + n.
-      //  b. If k < 0, let k be 0.
-      var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
-
-      // 7. Repeat, while k < len
-      while (k < len) {
-        // a. Let elementK be the result of ? Get(O, ! ToString(k)).
-        // b. If SameValueZero(searchElement, elementK) is true, return true.
-        // c. Increase k by 1.
-        // NOTE: === provides the correct "SameValueZero" comparison needed here.
-        if (o[k] === searchElement) {
-          return true;
-        }
-        k++;
-      }
-
-      // 8. Return false
-      return false;
-    }
-  });
-}
->>>>>>> add support for promise for IE11
-=======
->>>>>>> Add perf optimisation
