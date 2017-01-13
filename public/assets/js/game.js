@@ -204,7 +204,7 @@ MainChar = {
                 mainChar.attr("src","/assets/img/personnageprincipal.png");
                 Game.enemies[id] = null;
                 Game.checkVictory();
-            }, 1000);
+            }, 1100);
         }
 
         Game.currentPlayer().addRound();
