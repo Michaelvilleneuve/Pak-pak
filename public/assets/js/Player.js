@@ -97,10 +97,11 @@ const AI = {
     mediumMove() {
         let goodPositions = this.possiblePositions();
 
-        for (let i = 0; i < goodPositions.length; i++)
+        for (let i = 0; i < goodPositions.length; i++){
             var div = $('div[data-x='+goodPositions[i][0]+'][data-y='+goodPositions[i][1]+']');
             if (div.children().length === 0 || !div.find('img').attr('data-id'))
                 goodPositions[i] = null;
+        }
 
         goodPositions = $.grep(goodPositions,function(n){ return n == 0 || n });
         goodPositions = (goodPositions.length === 0) ? this.possiblePositions() : goodPositions;

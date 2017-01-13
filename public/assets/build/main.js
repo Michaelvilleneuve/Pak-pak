@@ -1,4 +1,60 @@
-var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};var Player = (function(){"use strict";var proto$0={};
+var PRS$0 = (function(o,t){o["__proto__"]={"a":t};return o["a"]===t})({},{});var DP$0 = Object.defineProperty;var GOPD$0 = Object.getOwnPropertyDescriptor;var MIXIN$0 = function(t,s){for(var p in s){if(s.hasOwnProperty(p)){DP$0(t,p,GOPD$0(s,p));}}return t};GameAudio = {
+	audios : {
+		effects : {
+			mute : false,
+			beat : new Audio("assets/audio/beat.mp3"),
+			jump : new Audio("assets/audio/jump.mp3"),
+			lose : new Audio("assets/audio/lose.mp3"),
+			win  : new Audio("assets/audio/win.mp3"),
+		},
+		theme : {
+			mute : false,
+			main : new Audio("assets/audio/theme.mp3")
+		}
+
+	},
+
+
+	refresh: function() { 
+		if(this.audios.theme.mute){
+			this.audios.theme.main.pause();
+		} else {
+			this.audios.theme.main.play();
+		}
+	},
+
+	startTheme: function() {
+		this.audios.theme.main.play();
+		this.audios.theme.main.volume = 0.2;
+		this.audios.theme.main.loop = true;
+	},
+
+	stopTheme: function() {
+		this.audios.theme.main.pause();
+	},
+
+	toggleMute: function(audio , value) {
+
+    	this.audios[audio].mute = !this.audios[audio].mute;
+
+    	if (value === false) {
+    		this.audios[audio].mute  = false;
+    	} else if(value===true) {
+    		this.audios[audio].mute  = true;
+    	}
+
+    	this.refresh();
+
+    	return this.audios[audio].mute;
+
+    },
+
+	play: function(effectName) {
+    	if(!this.audios.effects.mute){
+    		this.audios.effects[effectName].play();
+    	}			
+	}
+};var Player = (function(){"use strict";var proto$0={};
   function Player(name, id) {var mode = arguments[2];if(mode === void 0)mode = 'duo';
     this.id = id;
     this.name = name;
@@ -97,10 +153,11 @@ var AI = {
     mediumMove: function() {
         var goodPositions = this.possiblePositions();
 
-        for (var i$0 = 0; i$0 < goodPositions.length; i$0++)
-            var div = $('div[data-x='+goodPositions[i$0][0]+'][data-y='+goodPositions[i$0][1]+']');
+        for (var i = 0; i < goodPositions.length; i++){
+            var div = $('div[data-x='+goodPositions[i][0]+'][data-y='+goodPositions[i][1]+']');
             if (div.children().length === 0 || !div.find('img').attr('data-id'))
                 goodPositions[i] = null;
+        }
 
         goodPositions = $.grep(goodPositions,function(n){ return n == 0 || n });
         goodPositions = (goodPositions.length === 0) ? this.possiblePositions() : goodPositions;
@@ -283,7 +340,7 @@ var Game = {
             this.enemies.push(new Enemy(0, 2));
             this.enemies.push(new Enemy(0, 3));
         }
-        for(var i$1 = 0; i$1 < 5; i$1++) {
+        for(var i$0 = 0; i$0 < 5; i$0++) {
             this.enemies.push(new Enemy(0, 4));
         }
 
@@ -294,9 +351,9 @@ var Game = {
 
         // Define catcher authorized positions
         var possibleCatcherPosition = [];
-        for(var i$2 = 0; i$2 < 47; i$2++)
-            if (![3,10,17,21,22,23,24,25,26,27,31,38,45].includes(i$2))
-                possibleCatcherPosition.push(i$2);
+        for(var i$1 = 0; i$1 < 47; i$1++)
+            if (![3,10,17,21,22,23,24,25,26,27,31,38,45].includes(i$1))
+                possibleCatcherPosition.push(i$1);
 
         // Define and add catcher in any authorized position
         var catcherPosition = possibleCatcherPosition[Math.floor(Math.random()*possibleCatcherPosition.length)];
@@ -657,6 +714,13 @@ function showSection(sectionId) {
     }, 400)
 }
 ;// support for IE11
+
+// To add to window
+if (!window.Promise) {
+    var Promise = require('es6-promise').Promise;
+}
+
+
 if (!Array.prototype.includes) {
   Object.defineProperty(Array.prototype, 'includes', {
     value: function(searchElement, fromIndex) {

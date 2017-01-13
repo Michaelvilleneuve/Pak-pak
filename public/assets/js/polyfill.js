@@ -1,4 +1,11 @@
 // support for IE11
+
+// To add to window
+if (!window.Promise) {
+    var Promise = require('es6-promise').Promise;
+}
+
+
 if (!Array.prototype.includes) {
   Object.defineProperty(Array.prototype, 'includes', {
     value: function(searchElement, fromIndex) {
