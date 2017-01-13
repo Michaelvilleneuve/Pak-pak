@@ -19,7 +19,7 @@ module.exports = function(grunt) {
       },
       vendor: {
           src: [
-              ['public/assets/js/vendor/jquery.js', 'public/assets/js/vendor/*.js'],
+              ['public/assets/js/vendor/jquery-punch.js'],
           ],
           dest: 'public/assets/build/vendor.min.js'
       }
