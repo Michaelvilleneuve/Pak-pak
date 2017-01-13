@@ -124,6 +124,7 @@ var Game = {
             GameAudio.stopTheme();
             GameAudio.audios.effects.win.play();
             this.congratulate();
+            throw new Error("Game finished !");
         }
     },
 
@@ -165,7 +166,7 @@ var Game = {
 
 MainChar = {
     init: function() {
-        $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='assets/img/personnageprincipal.png'>");
+        $(".case:not(:has(>img))").append("<img id='main-char' style='z-index:9999;' src='/assets/anim/animPersoPrincipal.gif'>");
         this.updatePosition($('#main-char').parent('div'));
 
         $('#main-char').draggable({containment: "#game", revert: function(event, ui) {
@@ -240,7 +241,7 @@ MainChar = {
 				turn=1;
 			}
 		}
-		actualPlayer=Game.currentPlayer().name;
+		actualPlayer = Game.currentPlayer().name;
     }
 }
 

@@ -133,11 +133,13 @@ const AI = {
         const currentPosition = $('#main-char').parent('div').offset();
 
         $('#main-char').css('transition','1s');
+        $('#main-char').attr("src","/assets/anim/dragAnimation.gif");
         $('#main-char').css('left',targetPosition.left - currentPosition.left)
         $('#main-char').css('top',targetPosition.top - currentPosition.top);
 
         setTimeout(function() {
             $('#main-char').css('transition','none');
+            $('#main-char').attr("src","/assets/img/personnageprincipal.png");
             MainChar.eat(AI.getTarget());
         }, 1000);
 
