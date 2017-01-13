@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       },
       dist: {
         src: [
-            [ 'public/assets/js/polyfill.js', 
+            [ 'public/assets/js/polyfill.js',
               'public/assets/js/sounds.js',
               'public/assets/js/Player.js',
               'public/assets/js/*.js'
