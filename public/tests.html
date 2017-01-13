@@ -13,10 +13,128 @@
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script type="text/javascript" src="assets/js/vendor/jquery-punch.js"></script>
 </head>
+
+	<a href="/manual.html">Manuel utilisateur</a>
+	
+	<button id="mute">Mute</button>
+
+	<div id="main-container">
+		<section class="game">
+			<header class="columns">
+				<div class="player col col-6">
+					<span id="player1">Joueur 1</span> : <span id="score1">0</span> points
+				</div>
+				<div class="player col col-6">
+					<span id="player2">Joueur 2</span> : <span id="score2">0</span> points
+				</div>
+			</header>
+			<div id="board">
+				<img src="/assets/img/full_map.png" class="board_img"/>
+				<div id="game">
+				</div>
+			</div>
+		</section>
+		<section class="scores">
+			<div class="score-array glow columns">
+				<header class="col-12">
+					Highscores
+				</header>
+				<ol id="score-list" class="col-12">
+				</ol>
+			</div>
+			<div class="score-array glow columns">
+				<header class="col-12">
+					Derniers coups
+				</header>
+				<ol id="last-score-list" class="col-12" reversed>
+				</ol>
+			</div>
+		</section>
+		<section class="points">
+			<button class="btn btn-custom ml-10 glow" onclick="displayPoints()">Légende</button>
+			<div id="points" class="container points-container">
+		    <div class="columns col-gapless">
+					<div class="point-single column col-6">
+						<header>
+							10 points
+						</header>
+						<div class="body">
+							<img src="assets/img/ennemy1.png" />
+						</div>
+			 		</div>
+			 		<div class="point-single column col-6">
+						<header>
+							20 points
+						</header>
+						<div class="body">
+							<img src="assets/img/ennemy2.png" />
+						</div>
+			 		</div>
+					<div class="point-single column col-6">
+						<header>
+							30 points
+						</header>
+						<div class="body">
+							<img src="assets/img/ennemy3.png" />
+						</div>
+			 		</div>
+					<div class="point-single column col-6">
+						<header>
+							50 points
+						</header>
+						<div class="body">
+							<img src="assets/img/ennemy4.png" />
+						</div>
+			 		</div>
+					<div class="point-single column col-6">
+						<header>
+							100 points
+						</header>
+						<div class="body">
+							<img src="assets/img/ennemy5.png" />
+						</div>
+			 		</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<div id="menu-container">
+		<section id="menu">
+				<button id="play">Jouer</button>
+		</section>
+
+		<section id="gametype">
+				<button id="solo">Solo</button>
+				<button id="duo">Duo</button>
+		</section>
+
+		<section id="gamelevel">
+				<button id="easy">Amateur</button>
+				<button id="medium">Boxeur Pro</button>
+				<button id="hard">Brutal</button>
+		</section>
+
+		<section id="pickname">
+			<div id="groupej1">
+				<label for="namej1">Joueur 1</label><br>
+				<input type="text" id="namej1" value="Michael" /><br>
+			</div>
+			<div id="groupej2">
+				<label for="namej2">Joueur 2</label><br>
+				<input type="text" id="namej2" value="Youri" /><br>
+			</div>
+				<button id="start" mode='duo'>Jouer</button>
+		</section>
+	</div>
+
 	<script type="text/javascript" src="assets/build/main.min.js"></script>
 
 	<script type="text/javascript">
-		
+
+		$('#start').attr('mode', 'duo');
+		$('#start').trigger('click');
+
 		
 	</script>
 	<script type="text/javascript">
@@ -32,14 +150,11 @@
 		        }
 		        throw message;
 		    } else {
-
+		    	console.log('%c SUCCES :' + message, 'color: green');
 		    }
 		}
 	</script>
 	<script type="text/javascript">
-		Game.p1 = new Player("Joueur 1", 1);
-        Game.p2 = new Player("Joueur 2", 2);
-
 
         assert("Le joueur gagnant n'est pas le bon", function(){
         	
@@ -54,16 +169,78 @@
         	return Game.currentPlayer() === Game.p1;
         });
 
-        assert("Le joueur ne gagne pas de point d'un tour à l'autre", function(){
+        assert("Le tour par tour n'est pas bon", function(){
+        	Game.nextRound();
+        	return Game.currentPlayer() === Game.p2;
+        });
+
+        assert("Le joueur ne bénéficie pas du combo", function(){
 
         	Game.p1.score = 0;
         	Game.p2.score = 0;
 
-        	// simuler drag && drop
-        	//$("#main-char")
+        	for (var i = 0; i < 5; i++) {
+        		Game.p1.addPoints(10);
+        	}
 
-        	return Game.currentPlayer() === Game.p1;
+        	return Game.p1.score === ((10*4) + 30);
         });
+
+        assert("Le joueur gagnant n'est pas le bon", function(){
+        	
+        	Game.p1.addPoints(501);
+        	Game.p2.addPoints(5);
+
+        	return Game.winner().name === Game.p1.name;
+        });
+
+
+        assert("Le nombre de personnage n'est pas bon", function(){
+        	var imgs = document.querySelector("#game").getElementsByTagName('img');
+
+        	var personnages = {
+        		ennemy1 : 14,
+        		ennemy2 : 14,
+        		ennemy3 : 14,
+        		ennemy4 : 5,
+        		ennemy5 : 1
+        	}
+
+
+
+			for(var i= 0; i < imgs.length; i++)
+			{
+				for(var name in personnages)
+				{
+				     if(imgs[i].src == "http://localhost:8080/assets/img/"+ name +".png") {
+				     	personnages[name]--;
+				     }
+				}
+			}
+
+			for(var nom in personnages)
+			{
+			     if(personnages[nom] !== 0) {
+			     	return false;
+			     }
+			}
+
+
+
+
+
+        	return true;
+        });
+
+        assert("Le joueur n'est pas au milleu du plateau", function(){
+        	var img = document.querySelector("#case-25 img")
+
+
+
+        	return img.src ===  "http://localhost:8080/assets/img/personnageprincipal.png";
+        });
+
+
 
 	</script>
 </body>
